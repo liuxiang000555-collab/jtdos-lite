@@ -21,6 +21,7 @@ function validateJtdssConfig(env = process.env) {
 }
 
 function getRuntimeMode(env = process.env) {
+  if (isPublicLiteMode(env)) return "test";
   if (env.JTDSS_USE_MOCK === "true") return "test";
   if (env.NODE_ENV === "production" || env.NODE_ENV === "staging") return "production";
   return "test";
@@ -48,3 +49,4 @@ module.exports = {
   getJtdssMode,
   configCheck,
 };
+const { isPublicLiteMode } = require("./edition");
