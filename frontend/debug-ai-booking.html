@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JTDOS Debug</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; padding: 24px; color: #172033; background: #f6f7f9; }
+      section { background: #fff; border: 1px solid #dfe3ea; border-radius: 8px; padding: 16px; max-width: 900px; }
+      textarea, pre { width: 100%; box-sizing: border-box; border: 1px solid #ccd3df; border-radius: 6px; padding: 10px; }
+      button { background: #1f5eff; color: #fff; border: 0; border-radius: 6px; padding: 10px 12px; font-weight: 700; margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <section id="debug-panel">
+      <h1>Debug Panel</h1>
+      <p>Internal request parsing tool for local testing.</p>
+      <textarea id="debug-input" rows="5">Haneda Airport to Shinjuku, 2 people, 2 suitcases.</textarea>
+      <br>
+      <button id="debug-parse">Parse request</button>
+      <pre id="debug-output">{}</pre>
+    </section>
+    <script>
+      document.getElementById("debug-parse").addEventListener("click", async () => {
+        const customer_message = document.getElementById("debug-input").value;
+        const res = await fetch("/api/agent/extract-order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ customer_message }) });
+        document.getElementById("debug-output").textContent = JSON.stringify(await res.json(), null, 2);
+      });
+    </script>
+  </body>
+</html>

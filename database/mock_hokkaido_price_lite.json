@@ -1,0 +1,73 @@
+{
+  "schema_version": "hokkaido_mock_lite_v1",
+  "mock_data": true,
+  "for_demo_only": true,
+  "not_for_commercial_quote": true,
+  "primary_currency": "JPY",
+  "reference_currency": "USD",
+  "period_rules": {
+    "Off-season / non-winter": {
+      "type": "mock_demo_period"
+    },
+    "12.21-12.31": {
+      "type": "mock_demo_peak_period"
+    }
+  },
+  "records": [
+    {
+      "service_type": "airport_transfer",
+      "vehicle_code": "alphard_vellfire",
+      "vehicle": "Alphard / Vellfire",
+      "route_cn": "Mock 新千岁机场 - 札幌",
+      "route_en": "CTS ↔ Sapporo",
+      "period": "Off-season / non-winter",
+      "price_type": "mock_demo",
+      "price_jpy": 15432,
+      "price_usd_reference": 99
+    },
+    {
+      "service_type": "airport_transfer",
+      "vehicle_code": "hiace_10",
+      "vehicle": "Toyota HiAce",
+      "route_cn": "Mock 新千岁机场 - 札幌",
+      "route_en": "CTS ↔ Sapporo",
+      "period": "Off-season / non-winter",
+      "price_type": "mock_demo",
+      "price_jpy": 19876,
+      "price_usd_reference": 128
+    },
+    {
+      "service_type": "airport_transfer",
+      "vehicle_code": "alphard_vellfire",
+      "vehicle": "Alphard / Vellfire",
+      "route_cn": "Mock 新千岁机场 - 二世谷",
+      "route_en": "CTS ↔ Niseko",
+      "period": "Off-season / non-winter",
+      "price_type": "mock_demo",
+      "price_jpy": 34567,
+      "price_usd_reference": 223
+    },
+    {
+      "service_type": "airport_transfer",
+      "vehicle_code": "hiace_10",
+      "vehicle": "Toyota HiAce",
+      "route_cn": "Mock 新千岁机场 - 二世谷",
+      "route_en": "CTS ↔ Niseko",
+      "period": "Off-season / non-winter",
+      "price_type": "mock_demo",
+      "price_jpy": 41234,
+      "price_usd_reference": 266
+    },
+    {
+      "service_type": "airport_transfer",
+      "vehicle_code": "hiace_10",
+      "vehicle": "Toyota HiAce",
+      "route_cn": "Mock 新千岁机场 - 二世谷 旺季",
+      "route_en": "CTS ↔ Niseko",
+      "period": "12.21-12.31",
+      "price_type": "mock_demo_peak",
+      "price_jpy": 51234,
+      "price_usd_reference": 330
+    }
+  ]
+}

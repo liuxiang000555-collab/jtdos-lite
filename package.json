@@ -1,0 +1,16 @@
+{
+  "name": "jtdos-lite-public",
+  "version": "0.1.0",
+  "private": false,
+  "description": "JTDOS Lite public demo for AI Japan travel sales assistant.",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "start:staging": "NODE_ENV=staging node backend/server.js",
+    "start:production": "NODE_ENV=production node backend/server.js",
+    "test:alpha": "node tests/ai_booking_e2e_alpha_0_1.test.js && node tests/quote_matrix_alpha_0_1.test.js && node tests/deployment_readiness_alpha_0_1.test.js",
+    "test:staging": "node tests/staging_smoke_alpha_0_1.test.js",
+    "check:staging": "node scripts/pre_staging_check.js",
+    "check:public-lite": "node scripts/check_lite_public_safety.js"
+  }
+}

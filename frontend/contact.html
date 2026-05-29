@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact JTDOS</title>
+    <style>
+      body { margin: 0; font-family: Arial, sans-serif; color: #172033; background: #f6f7f9; }
+      main { max-width: 720px; margin: 0 auto; padding: 32px 20px; }
+      section { background: #fff; border: 1px solid #dfe3ea; border-radius: 8px; padding: 24px; }
+      label { display: block; margin: 12px 0; font-weight: 700; }
+      input, textarea, select { width: 100%; box-sizing: border-box; border: 1px solid #ccd3df; border-radius: 6px; padding: 10px; font: inherit; margin-top: 6px; }
+      button { background: #1f5eff; color: #fff; border: 0; border-radius: 6px; padding: 12px 16px; font-weight: 700; cursor: pointer; }
+      .status { color: #1f6f3d; font-weight: 700; margin-top: 16px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>Contact JTDOS</h1>
+        <form id="contact-form">
+          <label>Name<input name="name" required></label>
+          <label>Company<input name="company"></label>
+          <label>Country<input name="country"></label>
+          <label>Email<input name="email" type="email" required></label>
+          <label>WhatsApp / LINE<input name="messenger"></label>
+          <label>Interested Plan
+            <select name="plan">
+              <option>Lite Free</option>
+              <option>Pro License</option>
+              <option>Private / Enterprise</option>
+            </select>
+          </label>
+          <label>Message<textarea name="message" rows="5"></textarea></label>
+          <button type="submit">Submit</button>
+        </form>
+        <div id="contact-status" class="status" aria-live="polite"></div>
+      </section>
+    </main>
+    <script>
+      document.getElementById("contact-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        await fetch("/api/contact/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) });
+        document.getElementById("contact-status").textContent = "Thank you. Our team will contact you.";
+      });
+    </script>
+  </body>
+</html>

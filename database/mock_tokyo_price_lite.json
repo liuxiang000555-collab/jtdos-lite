@@ -1,0 +1,38 @@
+{
+  "version": "tokyo_mock_lite_v1",
+  "mock_data": true,
+  "for_demo_only": true,
+  "not_for_commercial_quote": true,
+  "currency": "JPY",
+  "included_default": ["Driver", "Vehicle", "Fuel", "Highway toll", "Parking fee"],
+  "excluded_default": ["Extra waiting time", "Signage / placard service", "Child seat fee", "Additional stop", "Route change", "Guide service"],
+  "surcharges": {
+    "night_time_range": "21:00-07:00",
+    "night_surcharge_non_peak_rate": 0.2,
+    "night_surcharge_peak_rate": 0.2,
+    "signage_jpy": 2000,
+    "child_seat_jpy_per_seat": 1000,
+    "waiting_fee_jpy_per_30_min": 3000,
+    "peak_price_multiplier": 1.4
+  },
+  "routes": [
+    {
+      "service_type": "airport_transfer",
+      "route": "HND ↔ 东京23区",
+      "prices_jpy": {
+        "Alphard/Vellfire": 12345,
+        "HiAce": 16789
+      },
+      "price_status": "fixed_price"
+    },
+    {
+      "service_type": "airport_transfer",
+      "route": "NRT ↔ 东京23区",
+      "prices_jpy": {
+        "Alphard/Vellfire": 23456,
+        "HiAce": 28901
+      },
+      "price_status": "fixed_price"
+    }
+  ]
+}

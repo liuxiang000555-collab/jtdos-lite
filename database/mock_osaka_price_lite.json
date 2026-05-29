@@ -1,0 +1,45 @@
+{
+  "version": "osaka_mock_lite_v1",
+  "mock_data": true,
+  "for_demo_only": true,
+  "not_for_commercial_quote": true,
+  "region": "Osaka",
+  "price_rules": {
+    "currency": "JPY",
+    "fees": {
+      "waiting_fee_jpy_per_30_min": 3000,
+      "signage_jpy": 2000,
+      "child_seat_jpy_per_seat": 1000
+    }
+  },
+  "routes": [
+    {
+      "region": "Osaka",
+      "service_type": "airport_transfer",
+      "route_key": "MOCK_KIX_OSAKA_CITY",
+      "pickup_location": "Kansai Airport",
+      "dropoff_location": "Osaka City",
+      "bidirectional": true,
+      "prices": {
+        "alphard_vellfire": { "normal_price_jpy": 13579, "peak_price_jpy": 19011 },
+        "hiace": { "normal_price_jpy": 17999, "peak_price_jpy": 24001 }
+      },
+      "included": ["Driver", "Vehicle", "Fuel", "Highway toll", "Parking fee"],
+      "excluded": ["Extra waiting time", "Signage / placard service", "Child seat fee", "Additional stop", "Route change", "Guide service"]
+    },
+    {
+      "region": "Osaka",
+      "service_type": "airport_transfer",
+      "route_key": "MOCK_KIX_KYOTO_CITY",
+      "pickup_location": "Kansai Airport",
+      "dropoff_location": "Kyoto City",
+      "bidirectional": true,
+      "prices": {
+        "alphard_vellfire": { "normal_price_jpy": 24680, "peak_price_jpy": 32084 },
+        "hiace": { "normal_price_jpy": 29876, "peak_price_jpy": 38839 }
+      },
+      "included": ["Driver", "Vehicle", "Fuel", "Highway toll", "Parking fee"],
+      "excluded": ["Extra waiting time", "Signage / placard service", "Child seat fee", "Additional stop", "Route change", "Guide service"]
+    }
+  ]
+}
