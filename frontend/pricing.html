@@ -5,51 +5,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>JTDOS Pricing</title>
     <style>
-      body { margin: 0; font-family: Arial, sans-serif; color: #172033; background: #f6f7f9; }
-      main { max-width: 1080px; margin: 0 auto; padding: 32px 20px; }
-      h1 { font-size: 44px; margin: 0 0 20px; }
-      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-      .plan { background: #fff; border: 1px solid #dfe3ea; border-radius: 8px; padding: 24px; }
-      li { margin: 10px 0; line-height: 1.45; }
-      a { color: #1f5eff; font-weight: 700; }
+      :root {
+        --bg: #F8FAFC;
+        --surface: #FFFFFF;
+        --text: #0F172A;
+        --muted: #64748B;
+        --primary: #2563EB;
+        --primary-hover: #1D4ED8;
+        --primary-soft: #E0F2FE;
+        --border: #E2E8F0;
+        --success: #10B981;
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      main { max-width: 1120px; margin: 0 auto; padding: 32px 20px 72px; }
+      header { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 56px; }
+      .brand { font-size: 20px; font-weight: 800; }
+      nav { display: flex; flex-wrap: wrap; gap: 16px; }
+      nav a { color: var(--muted); font-weight: 700; text-decoration: none; }
+      .hero { padding: 48px 0 56px; max-width: 780px; }
+      .eyebrow { color: var(--primary); font-weight: 800; margin-bottom: 16px; }
+      h1 { font-size: clamp(42px, 6vw, 68px); line-height: 1; margin: 0 0 18px; }
+      p { color: var(--muted); line-height: 1.7; font-size: 18px; margin: 0; }
+      .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+      .plan {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        min-height: 520px;
+      }
+      .plan.featured { border-color: rgba(37, 99, 235, 0.35); }
+      .badge {
+        display: inline-flex;
+        width: fit-content;
+        background: var(--primary-soft);
+        color: var(--primary);
+        border-radius: 10px;
+        padding: 7px 10px;
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 18px;
+      }
+      h2 { font-size: 28px; margin: 0 0 10px; }
+      .price { font-size: 18px; color: var(--muted); margin-bottom: 22px; }
+      ul { padding: 0; margin: 0 0 24px; list-style: none; display: grid; gap: 12px; }
+      li { color: var(--text); line-height: 1.45; }
+      li::before { content: "✓"; color: var(--success); font-weight: 900; margin-right: 8px; }
+      .button {
+        margin-top: auto;
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        padding: 12px 18px;
+        background: var(--primary);
+        color: white;
+        text-decoration: none;
+        font-weight: 800;
+      }
+      .button:hover { background: var(--primary-hover); }
+      .button.secondary { background: var(--surface); color: var(--primary); border: 1px solid var(--border); }
+      @media (max-width: 900px) {
+        main { padding: 24px 16px 40px; }
+        header { align-items: flex-start; flex-direction: column; margin-bottom: 32px; }
+        .grid { grid-template-columns: 1fr; }
+        .plan { min-height: auto; }
+      }
     </style>
   </head>
   <body>
     <main>
-      <h1>JTDOS Pricing</h1>
-      <div class="grid">
-        <section class="plan">
+      <header>
+        <div class="brand">JTDOS Lite</div>
+        <nav aria-label="Main navigation">
+          <a href="/">Home</a>
+          <a href="/ai-booking">AI Booking</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">Plans for demo, operators, and private deployments</div>
+        <h1>Start with Lite. Grow into Pro or Private.</h1>
+        <p>JTDOS Lite is a public evaluation version. Pro and Private packages are designed for agencies and operators who need custom pricing, branded workflows, and real operational integrations.</p>
+      </section>
+
+      <section class="grid" aria-label="Pricing plans">
+        <article class="plan">
+          <span class="badge">Evaluation</span>
           <h2>Lite Free</h2>
+          <div class="price">Open demo</div>
           <ul>
-            <li>Open Lite demo</li>
-            <li>Mock data</li>
+            <li>AI Booking Assistant</li>
+            <li>Mock demo data</li>
+            <li>Airport transfer and charter inquiry flow</li>
+            <li>English, Chinese, and Spanish input</li>
+            <li>Landing, pricing, and contact pages</li>
             <li>For evaluation and developers</li>
           </ul>
-          <a href="/ai-booking">Open demo</a>
-        </section>
-        <section class="plan">
+          <a class="button secondary" href="/ai-booking">Open demo</a>
+        </article>
+
+        <article class="plan featured">
+          <span class="badge">Commercial</span>
           <h2>Pro License</h2>
+          <div class="price">For travel agencies and local operators</div>
           <ul>
-            <li>For travel agencies / local operators</li>
             <li>Custom price tables</li>
-            <li>Email / Telegram / WhatsApp notification</li>
-            <li>AI Booking page</li>
+            <li>Branded AI Booking page</li>
+            <li>Email, Telegram, and WhatsApp notification flow</li>
+            <li>Lead capture and operator follow-up</li>
             <li>Deployment support</li>
+            <li>Commercial support package</li>
           </ul>
-          <a href="/contact">Contact for Pro</a>
-        </section>
-        <section class="plan">
+          <a class="button" href="/contact">Contact for Pro</a>
+        </article>
+
+        <article class="plan">
+          <span class="badge">Private</span>
           <h2>Private / Enterprise</h2>
+          <div class="price">For private deployment and integration</div>
           <ul>
             <li>Private deployment</li>
             <li>API integration</li>
             <li>Operations system connector</li>
             <li>Supplier network option</li>
             <li>Custom workflow</li>
+            <li>Implementation consulting</li>
           </ul>
-          <a href="/contact">Contact for Private</a>
-        </section>
-      </div>
+          <a class="button secondary" href="/contact">Contact for Private</a>
+        </article>
+      </section>
     </main>
   </body>
 </html>

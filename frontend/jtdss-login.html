@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JTDSS Login</title>
+    <style>
+      :root {
+        --bg: #F7FAF8;
+        --surface: #FFFFFF;
+        --text: #10231B;
+        --muted: #66756E;
+        --primary: #1F7A5C;
+        --primary-hover: #166348;
+        --primary-soft: #E8F5EF;
+        --border: #DCE8E2;
+        --warning: #F59E0B;
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(31, 122, 92, 0.12), transparent 34%),
+          var(--bg);
+      }
+      main {
+        min-height: 100vh;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 56px 24px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 420px;
+        gap: 32px;
+        align-items: center;
+      }
+      .brand { font-size: 22px; font-weight: 900; margin-bottom: 28px; }
+      h1 { font-size: clamp(42px, 6vw, 68px); line-height: 1; margin: 0 0 18px; }
+      p { color: var(--muted); line-height: 1.7; font-size: 18px; margin: 0; }
+      .value-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+      .value {
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+        font-weight: 800;
+      }
+      .value span { display: block; color: var(--muted); font-size: 14px; font-weight: 600; margin-top: 8px; line-height: 1.5; }
+      .login-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        padding: 32px;
+      }
+      .login-card h2 { font-size: 30px; margin: 0 0 8px; }
+      form { display: grid; gap: 16px; margin-top: 24px; }
+      label { display: grid; gap: 7px; font-weight: 800; }
+      input {
+        min-height: 48px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font: inherit;
+      }
+      input:focus { outline: 3px solid rgba(31, 122, 92, 0.18); border-color: var(--primary); }
+      button, .button {
+        min-height: 48px;
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+      button:hover, .button:hover { background: var(--primary-hover); }
+      .button.secondary { background: var(--primary-soft); color: var(--primary); }
+      .card-actions { display: grid; gap: 12px; margin-top: 18px; }
+      .note { background: var(--primary-soft); border-radius: 16px; padding: 16px; margin-top: 20px; color: var(--text); font-weight: 700; line-height: 1.5; }
+      @media (max-width: 860px) {
+        main { grid-template-columns: 1fr; padding: 32px 16px; }
+        .value-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <div class="brand">JTDSS</div>
+        <h1>Dispatch execution for trusted Japan travel drivers.</h1>
+        <p>JTDSS is designed for verified drivers, vehicle companies, and operations teams that need reliable order handling, settlement clarity, and dispatch structure.</p>
+        <div class="value-grid">
+          <div class="value">Real-name registration<span>Build trust with verified driver and company profiles.</span></div>
+          <div class="value">Fair pricing floor<span>Protect service quality with transparent minimum pricing rules.</span></div>
+          <div class="value">72-hour settlement<span>Support faster, predictable settlement after completed service.</span></div>
+          <div class="value">Trusted dispatch network<span>Keep order intake, review, and driver assignment structured.</span></div>
+        </div>
+      </section>
+
+      <section class="login-card">
+        <h2>Unified Login</h2>
+        <p>Access driver tools, dispatch tasks, and registration workflows.</p>
+        <form>
+          <label>Email or phone<input type="text" autocomplete="username"></label>
+          <label>Password<input type="password" autocomplete="current-password"></label>
+          <button type="button">Login</button>
+        </form>
+        <div class="card-actions">
+          <a class="button secondary" href="#">Register</a>
+          <a class="button secondary" href="#">Register with Gmail</a>
+        </div>
+        <div class="note">This page is a brand-aligned UI baseline. Existing authentication logic should be connected without changing the visual system.</div>
+      </section>
+    </main>
+  </body>
+</html>

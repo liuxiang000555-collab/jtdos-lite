@@ -92,6 +92,11 @@ async function routeRequest(req, res) {
     return sendHtml(res, 200, html);
   }
 
+  if (req.method === "GET" && url.pathname === "/jtdss-login") {
+    const html = fs.readFileSync(path.join(ROOT, "frontend/jtdss-login.html"), "utf8");
+    return sendHtml(res, 200, html);
+  }
+
   if (req.method === "GET" && (url.pathname === "/debug/ai-booking" || (url.pathname === "/ai-booking" && url.searchParams.get("debug") === "1"))) {
     const html = fs.readFileSync(path.join(ROOT, "frontend/debug-ai-booking.html"), "utf8");
     return sendHtml(res, 200, html);
