@@ -4,6 +4,7 @@ const { extractOrder } = require("../backend/agent/extract_order");
 const { generateQuote } = require("../backend/quote/generate_quote");
 const { quoteInputFromDraft } = require("../backend/e2e/ai_booking_flow");
 const { createBookingRequest } = require("../backend/order/create_order");
+const { sendContactLeadEmailNotification } = require("../backend/notification/contact_lead_email");
 
 let passed = 0;
 let failed = 0;
@@ -197,9 +198,54 @@ async function run() {
     assert.equal(body.success, true);
     assert.equal(body.mock_submission, true);
     assert.ok(body.lead_id.startsWith("JTDOS-LEAD-"));
+    assert.equal(body.email_notification.skipped, true);
     assert.equal(body.message, "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.");
     assert.equal(res.body.includes("lead@example.com"), false);
     assert.equal(res.body.includes("+000000000"), false);
+  });
+
+  await test("contact lead email notification can be prepared with Resend without leaking config", async () => {
+    const result = await sendContactLeadEmailNotification({
+      lead_id: "JTDOS-LEAD-TEST",
+      name: "Test Agency",
+      company: "JTDOS Test Travel",
+      country: "Singapore",
+      email: "test@example.com",
+      messenger: "+6500000000",
+      plan: "Pro Beta",
+      company_type: "Travel Agency",
+      estimated_monthly_inquiries: "50–200",
+      message: "We want to test JTDOS Pro Beta for Japan airport transfer inquiries.",
+    }, {
+      EMAIL_PROVIDER: "resend",
+      EMAIL_FROM: "JTDOS <noreply@example.com>",
+      CONTACT_NOTIFY_EMAIL: "ops@example.com",
+      EMAIL_API_KEY: "secret-resend-key",
+    }, { dryRun: true });
+
+    assert.equal(result.success, true);
+    assert.equal(result.dry_run, true);
+    assert.equal(result.provider, "resend");
+    assert.ok(result.subject.includes("New JTDOS Pro Beta Lead"));
+    assert.ok(result.body.includes("Name: Test Agency"));
+    assert.ok(result.body.includes("Company: JTDOS Test Travel"));
+    assert.ok(result.body.includes("Email: test@example.com"));
+    assert.ok(result.body.includes("WhatsApp / LINE: +6500000000"));
+    assert.equal(JSON.stringify(result).includes("secret-resend-key"), false);
+  });
+
+  await test("contact lead SMTP provider is safe placeholder and does not block", async () => {
+    const result = await sendContactLeadEmailNotification({
+      lead_id: "JTDOS-LEAD-SMTP",
+      plan: "Pro Beta",
+    }, {
+      EMAIL_PROVIDER: "smtp",
+      EMAIL_FROM: "noreply@example.com",
+      CONTACT_NOTIFY_EMAIL: "ops@example.com",
+    });
+    assert.equal(result.skipped, true);
+    assert.equal(result.provider, "smtp");
+    assert.ok(result.warning.includes("placeholder"));
   });
 
   await test("/internal/config-check does not leak secrets", async () => {

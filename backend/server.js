@@ -7,6 +7,7 @@ const { createBookingRequest } = require("./order/create_order");
 const { sendOrderToJtdss } = require("./jtdss");
 const { getJtdssMode, configCheck } = require("./config/env");
 const { isPublicLiteMode } = require("./config/edition");
+const { sendContactLeadEmailNotification } = require("./notification/contact_lead_email");
 
 const ROOT = path.resolve(__dirname, "..");
 const PRICE_TABLES = {
@@ -189,10 +190,12 @@ async function routeRequest(req, res) {
       mock_submission: true,
     };
     console.log("JTDOS Pro Beta lead mock submission", maskLeadForLog(lead));
+    const emailNotification = await sendContactLeadEmailNotification(lead, process.env);
     return sendJson(res, 200, {
       success: true,
       lead_id: lead.lead_id,
       mock_submission: true,
+      email_notification: emailNotification,
       message: "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.",
     });
   }
