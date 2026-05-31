@@ -119,6 +119,22 @@ async function routeRequest(req, res) {
     return sendHtml(res, 200, html);
   }
 
+  if (req.method === "GET" && [
+    "/dashboard",
+    "/dashboard/settings",
+    "/dashboard/billing",
+    "/dashboard/price-tables",
+    "/dashboard/integrations",
+  ].includes(url.pathname)) {
+    const html = fs.readFileSync(path.join(ROOT, "frontend/dashboard.html"), "utf8");
+    return sendHtml(res, 200, html);
+  }
+
+  if (req.method === "GET" && url.pathname === "/upgrade") {
+    const html = fs.readFileSync(path.join(ROOT, "frontend/upgrade.html"), "utf8");
+    return sendHtml(res, 200, html);
+  }
+
   if (req.method === "GET" && url.pathname === "/jtdss-login") {
     const html = fs.readFileSync(path.join(ROOT, "frontend/jtdss-login.html"), "utf8");
     return sendHtml(res, 200, html);
@@ -200,6 +216,15 @@ async function routeRequest(req, res) {
       email_notification: emailNotification,
       lead_storage: leadStorage,
       message: "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.",
+    });
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/billing/mock-upgrade") {
+    return sendJson(res, 200, {
+      success: true,
+      plan: "pro",
+      payment_status: "paid",
+      message: "Pro Cloud activated in mock mode.",
     });
   }
 
