@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { routeRequest, maskSensitiveOrderForLog } = require("../backend/server");
+const { routeRequest, maskSensitiveOrderForLog, maskLeadForLog } = require("../backend/server");
 const { extractOrder } = require("../backend/agent/extract_order");
 const { generateQuote } = require("../backend/quote/generate_quote");
 const { quoteInputFromDraft } = require("../backend/e2e/ai_booking_flow");
@@ -102,13 +102,47 @@ async function run() {
     const pricing = await callRoute({ url: "/pricing" });
     assert.equal(pricing.status, 200);
     assert.ok(pricing.body.includes("Lite Free"));
-    assert.ok(pricing.body.includes("Pro License"));
+    assert.ok(pricing.body.includes("Pro Beta"));
+    assert.ok(pricing.body.includes("Starting from USD 999"));
+    assert.ok(pricing.body.includes("Request Pro Beta"));
     assert.ok(pricing.body.includes("Private / Enterprise"));
+    assert.ok(pricing.body.includes("Book Private Demo"));
 
     const contact = await callRoute({ url: "/contact" });
     assert.equal(contact.status, 200);
     assert.ok(contact.body.includes("Interested Plan"));
-    assert.ok(contact.body.includes("Thank you. Our team will contact you."));
+    assert.ok(contact.body.includes("Company Type"));
+    assert.ok(contact.body.includes("Estimated Monthly Inquiries"));
+    assert.ok(contact.body.includes("Travel Agency"));
+    assert.ok(contact.body.includes("Transfer Operator"));
+    assert.ok(contact.body.includes("Pro Beta"));
+    assert.ok(contact.body.includes("Thank you. Your Pro Beta request has been received."));
+  });
+
+  await test("contact mock submit returns Pro Beta lead response without requiring email integration", async () => {
+    const res = await callRoute({
+      method: "POST",
+      url: "/api/contact/submit",
+      body: {
+        name: "Test Lead",
+        company: "Example Travel",
+        country: "United States",
+        email: "lead@example.com",
+        messenger: "+000000000",
+        plan: "Pro Beta",
+        company_type: "Travel Agency",
+        estimated_monthly_inquiries: "50–200",
+        message: "We want to test JTDOS Pro Beta.",
+      },
+    });
+    const body = JSON.parse(res.body);
+    assert.equal(res.status, 200);
+    assert.equal(body.success, true);
+    assert.equal(body.mock_submission, true);
+    assert.ok(body.lead_id.startsWith("JTDOS-LEAD-"));
+    assert.equal(body.message, "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.");
+    assert.equal(res.body.includes("lead@example.com"), false);
+    assert.equal(res.body.includes("+000000000"), false);
   });
 
   await test("/internal/config-check does not leak secrets", async () => {
@@ -221,6 +255,27 @@ async function run() {
     assert.equal(text.includes("+123456"), false);
     assert.equal(text.includes("line-id"), false);
     assert.equal(masked.customer.email, "[masked]");
+  });
+
+  await test("Pro Beta lead logs mask personal contact fields", () => {
+    const masked = maskLeadForLog({
+      lead_id: "JTDOS-LEAD-1",
+      plan: "Pro Beta",
+      company_type: "Travel Agency",
+      country: "United States",
+      estimated_monthly_inquiries: "50–200",
+      name: "Real Lead",
+      company: "Real Company",
+      email: "lead@example.com",
+      messenger: "+123456",
+    });
+    const text = JSON.stringify(masked);
+    assert.equal(text.includes("Real Lead"), false);
+    assert.equal(text.includes("Real Company"), false);
+    assert.equal(text.includes("lead@example.com"), false);
+    assert.equal(text.includes("+123456"), false);
+    assert.equal(masked.email, "[masked]");
+    assert.equal(masked.messenger, "[masked]");
   });
 
   console.log(`\nstaging_smoke_alpha_0_1 summary: ${passed} passed, ${failed} failed`);

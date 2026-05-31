@@ -74,6 +74,20 @@ function maskSensitiveOrderForLog(order = {}) {
   };
 }
 
+function maskLeadForLog(lead = {}) {
+  return {
+    lead_id: lead.lead_id,
+    plan: lead.plan,
+    company_type: lead.company_type,
+    country: lead.country,
+    estimated_monthly_inquiries: lead.estimated_monthly_inquiries,
+    name: lead.name ? "[masked]" : "",
+    company: lead.company ? "[masked]" : "",
+    email: lead.email ? "[masked]" : "",
+    messenger: lead.messenger ? "[masked]" : "",
+  };
+}
+
 async function routeRequest(req, res) {
   const url = new URL(req.url, "http://localhost");
 
@@ -143,10 +157,28 @@ async function routeRequest(req, res) {
   }
 
   if (req.method === "POST" && url.pathname === "/api/contact/submit") {
-    await readJsonBody(req);
+    const body = await readJsonBody(req);
+    const lead = {
+      lead_id: `JTDOS-LEAD-${Date.now()}`,
+      source: "jtdos_lite_contact",
+      name: body.name || "",
+      company: body.company || "",
+      country: body.country || "",
+      email: body.email || "",
+      messenger: body.messenger || "",
+      plan: body.plan || "Pro Beta",
+      company_type: body.company_type || "",
+      estimated_monthly_inquiries: body.estimated_monthly_inquiries || "",
+      message: body.message || "",
+      created_at: new Date().toISOString(),
+      mock_submission: true,
+    };
+    console.log("JTDOS Pro Beta lead mock submission", maskLeadForLog(lead));
     return sendJson(res, 200, {
       success: true,
-      message: "Thank you. Our team will contact you.",
+      lead_id: lead.lead_id,
+      mock_submission: true,
+      message: "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.",
     });
   }
 
@@ -186,4 +218,5 @@ module.exports = Object.assign(handleRequest, {
   routeRequest,
   priceTableStatus,
   maskSensitiveOrderForLog,
+  maskLeadForLog,
 });

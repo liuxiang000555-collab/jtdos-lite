@@ -90,9 +90,9 @@
 
       <div class="layout">
         <section>
-          <div class="eyebrow">For Pro / Private inquiries</div>
-          <h1>Build your AI travel sales workflow for Japan transportation.</h1>
-          <p>Tell us about your agency, operator team, or private deployment needs. We will follow up with the right plan for pricing, workflow, and integration support.</p>
+          <div class="eyebrow">Request Pro Beta or Private Demo</div>
+          <h1>Tell us how JTDOS can fit your travel sales workflow.</h1>
+          <p>Pro Beta is reviewed manually. Share your company type, inquiry volume, and deployment needs so the JTDOS team can decide the right next step.</p>
           <div class="points">
             <div class="point">Custom price tables for your routes and vehicles</div>
             <div class="point">AI booking page adapted to your brand and language needs</div>
@@ -101,7 +101,7 @@
         </section>
 
         <section class="card">
-          <h2>Contact JTDOS</h2>
+          <h2>Request JTDOS Pro Beta</h2>
           <form id="contact-form">
             <label>Name<input name="name" required></label>
             <label>Company<input name="company"></label>
@@ -110,9 +110,28 @@
             <label>WhatsApp / LINE<input name="messenger"></label>
             <label>Interested Plan
               <select name="plan">
-                <option>Lite Free</option>
-                <option>Pro License</option>
+                <option>Lite</option>
+                <option selected>Pro Beta</option>
                 <option>Private / Enterprise</option>
+              </select>
+            </label>
+            <label>Company Type
+              <select name="company_type">
+                <option>Travel Agency</option>
+                <option>Transfer Operator</option>
+                <option>Local Supplier</option>
+                <option>OTA</option>
+                <option>Influencer / Creator</option>
+                <option>Developer</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>Estimated Monthly Inquiries
+              <select name="estimated_monthly_inquiries">
+                <option>0–50</option>
+                <option>50–200</option>
+                <option>200–1000</option>
+                <option>1000+</option>
               </select>
             </label>
             <label>Message<textarea name="message" rows="5"></textarea></label>
@@ -125,8 +144,9 @@
     <script>
       document.getElementById("contact-form").addEventListener("submit", async (event) => {
         event.preventDefault();
-        await fetch("/api/contact/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) });
-        document.getElementById("contact-status").textContent = "Thank you. Our team will contact you.";
+        const response = await fetch("/api/contact/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) });
+        const result = await response.json();
+        document.getElementById("contact-status").textContent = result.message || "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.";
       });
     </script>
   </body>
