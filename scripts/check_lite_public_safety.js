@@ -136,7 +136,7 @@ function checkSecretsAndRealData() {
       offenders.jtdss.push(item.relative);
     }
     for (const line of item.text.split(/\r?\n/)) {
-      const match = line.match(/^\s*(JTDSS_API_KEY|EMAIL_API_KEY|TELEGRAM_BOT_TOKEN)\s*=\s*(.*?)\s*$/);
+      const match = line.match(/^\s*(JTDSS_API_KEY|EMAIL_API_KEY|TELEGRAM_BOT_TOKEN|GOOGLE_SHEETS_SPREADSHEET_ID|GOOGLE_SHEETS_CLIENT_EMAIL|GOOGLE_SHEETS_PRIVATE_KEY)\s*=\s*(.*?)\s*$/);
       if (!match) continue;
       const value = match[2];
       if (

@@ -5,6 +5,7 @@ const { generateQuote } = require("../backend/quote/generate_quote");
 const { quoteInputFromDraft } = require("../backend/e2e/ai_booking_flow");
 const { createBookingRequest } = require("../backend/order/create_order");
 const { sendContactLeadEmailNotification } = require("../backend/notification/contact_lead_email");
+const { appendLeadToGoogleSheet, leadToGoogleSheetRow } = require("../backend/lead_storage/google_sheets_lead_storage");
 
 let passed = 0;
 let failed = 0;
@@ -199,9 +200,79 @@ async function run() {
     assert.equal(body.mock_submission, true);
     assert.ok(body.lead_id.startsWith("JTDOS-LEAD-"));
     assert.equal(body.email_notification.skipped, true);
+    assert.equal(body.lead_storage.skipped, true);
     assert.equal(body.message, "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.");
     assert.equal(res.body.includes("lead@example.com"), false);
     assert.equal(res.body.includes("+000000000"), false);
+  });
+
+  await test("contact lead Google Sheets storage can prepare the expected row without leaking config", async () => {
+    const lead = {
+      lead_id: "JTDOS-LEAD-SHEET",
+      created_at: "2026-06-01T00:00:00.000Z",
+      name: "Sheet Lead",
+      company: "Sheet Travel",
+      country: "Japan",
+      email: "sheet@example.com",
+      messenger: "+8100000000",
+      plan: "Pro Beta",
+      company_type: "Travel Agency",
+      estimated_monthly_inquiries: "50–200",
+      message: "Please save this lead.",
+    };
+    const result = await appendLeadToGoogleSheet(lead, {
+      LEAD_STORAGE_PROVIDER: "google_sheets",
+      GOOGLE_SHEETS_SPREADSHEET_ID: "spreadsheet-secret-id",
+      GOOGLE_SHEETS_CLIENT_EMAIL: "service@example.com",
+      GOOGLE_SHEETS_PRIVATE_KEY: "fake-private-key",
+      GOOGLE_SHEETS_LEADS_SHEET_NAME: "Pro Beta Leads",
+    }, { dryRun: true });
+
+    assert.equal(result.success, true);
+    assert.equal(result.dry_run, true);
+    assert.equal(result.provider, "google_sheets");
+    assert.deepEqual(result.row, leadToGoogleSheetRow(lead));
+    assert.equal(JSON.stringify(result).includes("spreadsheet-secret-id"), false);
+    assert.equal(JSON.stringify(result).includes("fake-private-key"), false);
+    assert.equal(JSON.stringify(result).includes("service@example.com"), false);
+    assert.equal(result.row[0], "2026-06-01T00:00:00.000Z");
+    assert.equal(result.row[1], "public-lite");
+    assert.equal(result.row[2], "pro_beta");
+    assert.equal(result.row[12], "New");
+  });
+
+  await test("contact submit is not blocked when Google Sheets storage fails", async () => {
+    const res = await callRoute({
+      method: "POST",
+      url: "/api/contact/submit",
+      env: {
+        LEAD_STORAGE_PROVIDER: "google_sheets",
+        GOOGLE_SHEETS_SPREADSHEET_ID: "spreadsheet-secret-id",
+        GOOGLE_SHEETS_CLIENT_EMAIL: "service@example.com",
+        GOOGLE_SHEETS_PRIVATE_KEY: "invalid-private-key",
+      },
+      body: {
+        name: "Storage Failure Lead",
+        company: "Storage Travel",
+        country: "Singapore",
+        email: "storage@example.com",
+        messenger: "+6500000000",
+        plan: "Pro Beta",
+        company_type: "Travel Agency",
+        estimated_monthly_inquiries: "50–200",
+        message: "Google Sheets failure should not block this lead.",
+      },
+    });
+    const body = JSON.parse(res.body);
+    assert.equal(res.status, 200);
+    assert.equal(body.success, true);
+    assert.equal(body.lead_storage.failed, true);
+    assert.equal(body.lead_storage.provider, "google_sheets");
+    assert.equal(res.body.includes("storage@example.com"), false);
+    assert.equal(res.body.includes("+6500000000"), false);
+    assert.equal(res.body.includes("spreadsheet-secret-id"), false);
+    assert.equal(res.body.includes("invalid-private-key"), false);
+    assert.equal(res.body.includes("service@example.com"), false);
   });
 
   await test("contact lead email notification can be prepared with Resend without leaking config", async () => {
