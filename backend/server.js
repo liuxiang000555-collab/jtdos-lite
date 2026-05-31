@@ -88,6 +88,17 @@ function maskLeadForLog(lead = {}) {
   };
 }
 
+function publicConfig(env = process.env) {
+  const whatsapp = env.PUBLIC_FAST_TRACK_WHATSAPP || "";
+  return {
+    success: true,
+    fast_track_whatsapp_configured: Boolean(whatsapp),
+    fast_track_whatsapp_url: whatsapp,
+    paypal_payment_note: env.PUBLIC_PAYPAL_PAYMENT_NOTE || "PayPal payment is available after WhatsApp confirmation.",
+    paypal_qr_enabled: env.PUBLIC_PAYPAL_QR_ENABLED === "true",
+  };
+}
+
 async function routeRequest(req, res) {
   const url = new URL(req.url, "http://localhost");
 
@@ -134,6 +145,10 @@ async function routeRequest(req, res) {
 
   if (req.method === "GET" && url.pathname === "/internal/config-check") {
     return sendJson(res, 200, configCheck(process.env));
+  }
+
+  if (req.method === "GET" && url.pathname === "/api/public-config") {
+    return sendJson(res, 200, publicConfig(process.env));
   }
 
   if (req.method === "POST" && url.pathname === "/api/agent/extract-order") {
@@ -219,4 +234,5 @@ module.exports = Object.assign(handleRequest, {
   priceTableStatus,
   maskSensitiveOrderForLog,
   maskLeadForLog,
+  publicConfig,
 });

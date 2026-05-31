@@ -31,6 +31,17 @@
       .brand { font-size: 20px; font-weight: 800; }
       nav { display: flex; flex-wrap: wrap; gap: 16px; }
       nav a { color: var(--muted); font-weight: 700; text-decoration: none; }
+      .header-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+      .language-switcher { display: inline-flex; gap: 8px; padding: 6px; background: #EEF2F7; border-radius: 14px; }
+      .language-switcher button {
+        min-height: 38px;
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: transparent;
+        color: var(--text);
+        font-weight: 800;
+      }
+      .language-switcher button.active { background: var(--primary); color: #fff; }
       .layout { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr); gap: 32px; align-items: start; }
       .eyebrow { color: var(--primary); font-weight: 800; margin-bottom: 16px; }
       h1 { font-size: clamp(42px, 6vw, 64px); line-height: 1; margin: 0 0 18px; }
@@ -45,6 +56,29 @@
       }
       .points { display: grid; gap: 16px; margin-top: 28px; }
       .point { background: var(--primary-soft); color: var(--text); border-radius: 16px; padding: 16px; font-weight: 700; }
+      .fast-track-notice {
+        border: 1px solid rgba(37, 99, 235, 0.22);
+        border-radius: 16px;
+        background: #F8FAFC;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+      .fast-track-notice p { font-size: 15px; line-height: 1.6; margin-bottom: 10px; }
+      .fast-track-notice strong { color: var(--text); }
+      .whatsapp-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        padding: 10px 14px;
+        background: var(--surface);
+        color: var(--primary);
+        border: 1px solid var(--border);
+        text-decoration: none;
+        font-weight: 800;
+      }
+      .hidden { display: none !important; }
       form { display: grid; gap: 16px; }
       label { display: grid; gap: 7px; font-weight: 800; color: var(--text); }
       input, textarea, select {
@@ -73,6 +107,7 @@
       @media (max-width: 860px) {
         main { padding: 24px 16px 40px; }
         header { align-items: flex-start; flex-direction: column; margin-bottom: 32px; }
+        .header-actions { align-items: flex-start; flex-direction: column; }
         .layout { grid-template-columns: 1fr; }
       }
     </style>
@@ -81,52 +116,64 @@
     <main>
       <header>
         <div class="brand">JTDOS Lite</div>
-        <nav aria-label="Main navigation">
-          <a href="/">Home</a>
-          <a href="/ai-booking">AI Booking</a>
-          <a href="/pricing">Pricing</a>
-        </nav>
+        <div class="header-actions">
+          <nav aria-label="Main navigation">
+            <a href="/" data-i18n="navHome">Home</a>
+            <a href="/ai-booking" data-i18n="navBooking">AI Booking</a>
+            <a href="/pricing" data-i18n="navPricing">Pricing</a>
+          </nav>
+          <div class="language-switcher" aria-label="Language switcher">
+            <button type="button" class="active" data-lang="en">EN</button>
+            <button type="button" data-lang="zh">中文</button>
+            <button type="button" data-lang="es">Español</button>
+          </div>
+        </div>
       </header>
 
       <div class="layout">
         <section>
-          <div class="eyebrow">Request Pro Beta or Private Demo</div>
-          <h1>Tell us how JTDOS can fit your travel sales workflow.</h1>
-          <p>Pro Beta is reviewed manually. Share your company type, inquiry volume, and deployment needs so the JTDOS team can decide the right next step.</p>
+          <div class="eyebrow" data-i18n="eyebrow">Request Pro Beta or Private Demo</div>
+          <h1 data-i18n="heroTitle">Tell us how JTDOS can fit your travel sales workflow.</h1>
+          <p data-i18n="heroText">Pro Beta is reviewed manually. Share your company type, inquiry volume, and deployment needs so the JTDOS team can decide the right next step.</p>
           <div class="points">
-            <div class="point">Custom price tables for your routes and vehicles</div>
-            <div class="point">AI booking page adapted to your brand and language needs</div>
-            <div class="point">Operator notifications, lead capture, and deployment support</div>
+            <div class="point" data-i18n="pointPriceTables">Custom price tables for your routes and vehicles</div>
+            <div class="point" data-i18n="pointBookingPage">AI booking page adapted to your brand and language needs</div>
+            <div class="point" data-i18n="pointNotifications">Operator notifications, lead capture, and deployment support</div>
           </div>
         </section>
 
         <section class="card">
-          <h2>Request JTDOS Pro Beta</h2>
+          <h2 data-i18n="formTitle">Request JTDOS Pro Beta</h2>
+          <div class="fast-track-notice" aria-label="Fast Track notice">
+            <p><strong data-i18n="fastTrackLabel">Fast Track:</strong> <span data-i18n="fastTrackText">For faster onboarding, you can contact us on WhatsApp after submitting this form. PayPal payment is available after we confirm your use case.</span></p>
+            <p data-i18n="fastTrackSafety">Please contact us before payment. Pro Beta is manually reviewed, is not automatic SaaS signup, and setup starts after confirmation.</p>
+            <a id="contact-fast-track-whatsapp" class="whatsapp-link hidden" href="#" target="_blank" rel="noopener" data-i18n="whatsappCta">Contact on WhatsApp</a>
+          </div>
           <form id="contact-form">
-            <label>Name<input name="name" required></label>
-            <label>Company<input name="company"></label>
-            <label>Country<input name="country"></label>
-            <label>Email<input name="email" type="email" required></label>
-            <label>WhatsApp / LINE<input name="messenger"></label>
-            <label>Interested Plan
+            <label><span data-i18n="labelName">Name</span><input name="name" required></label>
+            <label><span data-i18n="labelCompany">Company</span><input name="company"></label>
+            <label><span data-i18n="labelCountry">Country</span><input name="country"></label>
+            <label><span data-i18n="labelEmail">Email</span><input name="email" type="email" required></label>
+            <label><span data-i18n="labelMessenger">WhatsApp / LINE</span><input name="messenger"></label>
+            <label><span data-i18n="labelPlan">Interested Plan</span>
               <select name="plan">
                 <option>Lite</option>
                 <option selected>Pro Beta</option>
                 <option>Private / Enterprise</option>
               </select>
             </label>
-            <label>Company Type
+            <label><span data-i18n="labelCompanyType">Company Type</span>
               <select name="company_type">
-                <option>Travel Agency</option>
-                <option>Transfer Operator</option>
-                <option>Local Supplier</option>
+                <option data-i18n-option="travelAgency">Travel Agency</option>
+                <option data-i18n-option="transferOperator">Transfer Operator</option>
+                <option data-i18n-option="localSupplier">Local Supplier</option>
                 <option>OTA</option>
-                <option>Influencer / Creator</option>
-                <option>Developer</option>
-                <option>Other</option>
+                <option data-i18n-option="influencer">Influencer / Creator</option>
+                <option data-i18n-option="developer">Developer</option>
+                <option data-i18n-option="other">Other</option>
               </select>
             </label>
-            <label>Estimated Monthly Inquiries
+            <label><span data-i18n="labelInquiries">Estimated Monthly Inquiries</span>
               <select name="estimated_monthly_inquiries">
                 <option>0–50</option>
                 <option>50–200</option>
@@ -134,19 +181,168 @@
                 <option>1000+</option>
               </select>
             </label>
-            <label>Message<textarea name="message" rows="5"></textarea></label>
-            <button type="submit">Submit inquiry</button>
+            <label><span data-i18n="labelMessage">Message</span><textarea name="message" rows="5"></textarea></label>
+            <button type="submit" data-i18n="submitButton">Submit inquiry</button>
           </form>
           <div id="contact-status" class="status" aria-live="polite"></div>
         </section>
       </div>
     </main>
     <script>
+      const translations = {
+        en: {
+          navHome: "Home",
+          navBooking: "AI Booking",
+          navPricing: "Pricing",
+          eyebrow: "Request Pro Beta or Private Demo",
+          heroTitle: "Tell us how JTDOS can fit your travel sales workflow.",
+          heroText: "Pro Beta is reviewed manually. Share your company type, inquiry volume, and deployment needs so the JTDOS team can decide the right next step.",
+          pointPriceTables: "Custom price tables for your routes and vehicles",
+          pointBookingPage: "AI booking page adapted to your brand and language needs",
+          pointNotifications: "Operator notifications, lead capture, and deployment support",
+          formTitle: "Request JTDOS Pro Beta",
+          fastTrackLabel: "Fast Track:",
+          fastTrackText: "For faster onboarding, you can contact us on WhatsApp after submitting this form. PayPal payment is available after we confirm your use case.",
+          fastTrackSafety: "Please contact us before payment. Pro Beta is manually reviewed, is not automatic SaaS signup, and setup starts after confirmation.",
+          whatsappCta: "Contact on WhatsApp",
+          labelName: "Name",
+          labelCompany: "Company",
+          labelCountry: "Country",
+          labelEmail: "Email",
+          labelMessenger: "WhatsApp / LINE",
+          labelPlan: "Interested Plan",
+          labelCompanyType: "Company Type",
+          labelInquiries: "Estimated Monthly Inquiries",
+          labelMessage: "Message",
+          submitButton: "Submit inquiry",
+          success: "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.",
+          options: {
+            travelAgency: "Travel Agency",
+            transferOperator: "Transfer Operator",
+            localSupplier: "Local Supplier",
+            influencer: "Influencer / Creator",
+            developer: "Developer",
+            other: "Other",
+          },
+        },
+        zh: {
+          navHome: "首页",
+          navBooking: "AI 预约演示",
+          navPricing: "价格方案",
+          eyebrow: "申请 Pro Beta 或 Private 演示",
+          heroTitle: "告诉我们 JTDOS 如何接入您的旅游销售流程。",
+          heroText: "Pro Beta 目前采用人工审核。请告诉我们您的公司类型、咨询量和部署需求，我们会判断下一步是否适合安排演示或开通支持。",
+          pointPriceTables: "为您的路线和车型配置专属价格表",
+          pointBookingPage: "按您的品牌和语言需求配置 AI 预约页面",
+          pointNotifications: "运营通知、线索收集和部署支持",
+          formTitle: "申请 JTDOS Pro Beta",
+          fastTrackLabel: "快速通道：",
+          fastTrackText: "如果您希望更快推进，可以先提交表单，然后通过 WhatsApp 联系我们。PayPal 付款会在我们确认您的使用场景后再进行。",
+          fastTrackSafety: "付款前请先联系我们确认。Pro Beta 需要人工审核，不是自动 SaaS 注册，确认后才会开始设置。",
+          whatsappCta: "通过 WhatsApp 联系",
+          labelName: "姓名",
+          labelCompany: "公司",
+          labelCountry: "国家 / 地区",
+          labelEmail: "邮箱",
+          labelMessenger: "WhatsApp / LINE",
+          labelPlan: "感兴趣的方案",
+          labelCompanyType: "公司类型",
+          labelInquiries: "预计每月咨询量",
+          labelMessage: "留言",
+          submitButton: "提交申请",
+          success: "谢谢。您的 Pro Beta 申请已收到。JTDOS 团队会审核您的使用场景，并尽快与您联系。",
+          options: {
+            travelAgency: "旅行社",
+            transferOperator: "接送机 / 用车运营商",
+            localSupplier: "本地供应商",
+            influencer: "旅游博主 / 创作者",
+            developer: "开发者",
+            other: "其他",
+          },
+        },
+        es: {
+          navHome: "Inicio",
+          navBooking: "Demo AI Booking",
+          navPricing: "Precios",
+          eyebrow: "Solicitar Pro Beta o demo privada",
+          heroTitle: "Cuéntenos cómo JTDOS puede encajar en su flujo de ventas de viajes.",
+          heroText: "Pro Beta se revisa manualmente. Comparta su tipo de empresa, volumen de consultas y necesidades de implementación para que el equipo de JTDOS pueda definir el siguiente paso.",
+          pointPriceTables: "Tablas de precios personalizadas para sus rutas y vehículos",
+          pointBookingPage: "Página AI Booking adaptada a su marca e idiomas",
+          pointNotifications: "Notificaciones operativas, captura de leads y soporte de implementación",
+          formTitle: "Solicitar JTDOS Pro Beta",
+          fastTrackLabel: "Acceso rápido:",
+          fastTrackText: "Para una incorporación más rápida, puede contactarnos por WhatsApp después de enviar este formulario. El pago por PayPal estará disponible después de confirmar su caso de uso.",
+          fastTrackSafety: "Contáctenos antes de pagar. Pro Beta requiere revisión manual, no es un registro SaaS automático, y la configuración empieza después de la confirmación.",
+          whatsappCta: "Contactar por WhatsApp",
+          labelName: "Nombre",
+          labelCompany: "Empresa",
+          labelCountry: "País",
+          labelEmail: "Email",
+          labelMessenger: "WhatsApp / LINE",
+          labelPlan: "Plan de interés",
+          labelCompanyType: "Tipo de empresa",
+          labelInquiries: "Consultas mensuales estimadas",
+          labelMessage: "Mensaje",
+          submitButton: "Enviar solicitud",
+          success: "Gracias. Hemos recibido su solicitud de Pro Beta. El equipo de JTDOS revisará su caso de uso y se pondrá en contacto pronto.",
+          options: {
+            travelAgency: "Agencia de viajes",
+            transferOperator: "Operador de traslados",
+            localSupplier: "Proveedor local",
+            influencer: "Influencer / Creador",
+            developer: "Desarrollador",
+            other: "Otro",
+          },
+        },
+      };
+
+      let currentLanguage = localStorage.getItem("jtdos_contact_lang") || "en";
+
+      function applyLanguage(language) {
+        currentLanguage = translations[language] ? language : "en";
+        localStorage.setItem("jtdos_contact_lang", currentLanguage);
+        document.documentElement.lang = currentLanguage === "zh" ? "zh-CN" : currentLanguage;
+        const dictionary = translations[currentLanguage];
+
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          const key = node.dataset.i18n;
+          if (dictionary[key]) node.textContent = dictionary[key];
+        });
+        document.querySelectorAll("[data-i18n-option]").forEach((node) => {
+          const key = node.dataset.i18nOption;
+          if (dictionary.options[key]) node.textContent = dictionary.options[key];
+        });
+        document.querySelectorAll("[data-lang]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === currentLanguage);
+        });
+      }
+
+      document.querySelectorAll("[data-lang]").forEach((button) => {
+        button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+      });
+      applyLanguage(currentLanguage);
+
+      async function loadFastTrackConfig() {
+        try {
+          const response = await fetch("/api/public-config");
+          const config = await response.json();
+          const whatsappButton = document.getElementById("contact-fast-track-whatsapp");
+          if (config.fast_track_whatsapp_configured && config.fast_track_whatsapp_url && whatsappButton) {
+            whatsappButton.href = config.fast_track_whatsapp_url;
+            whatsappButton.classList.remove("hidden");
+          }
+        } catch (error) {
+          // WhatsApp Fast Track is optional in Lite; leave it hidden if not configured.
+        }
+      }
+      loadFastTrackConfig();
+
       document.getElementById("contact-form").addEventListener("submit", async (event) => {
         event.preventDefault();
         const response = await fetch("/api/contact/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(event.target))) });
         const result = await response.json();
-        document.getElementById("contact-status").textContent = result.message || "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.";
+        document.getElementById("contact-status").textContent = translations[currentLanguage].success || result.message || translations.en.success;
       });
     </script>
   </body>

@@ -77,6 +77,34 @@
       }
       .button:hover { background: var(--primary-hover); }
       .button.secondary { background: var(--surface); color: var(--primary); border: 1px solid var(--border); }
+      .button.disabled {
+        background: #F1F5F9;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        cursor: not-allowed;
+      }
+      .fast-track {
+        border: 1px solid rgba(37, 99, 235, 0.22);
+        border-radius: 16px;
+        background: linear-gradient(180deg, #FFFFFF, #F8FAFC);
+        padding: 18px;
+        margin: 6px 0 22px;
+      }
+      .fast-track h3 { font-size: 20px; margin: 0 0 10px; }
+      .fast-track p { font-size: 15px; line-height: 1.6; margin: 0 0 10px; }
+      .fast-track .safe-note { color: var(--text); font-weight: 700; }
+      .fast-track-actions { display: grid; gap: 10px; margin-top: 14px; }
+      .fast-track .button { margin-top: 0; }
+      .hidden { display: none !important; }
+      .paypal-qr-note {
+        margin-top: 12px;
+        border-radius: 12px;
+        background: var(--primary-soft);
+        color: var(--text);
+        padding: 12px;
+        font-size: 14px;
+        line-height: 1.55;
+      }
       @media (max-width: 900px) {
         main { padding: 24px 16px 40px; }
         header { align-items: flex-start; flex-direction: column; margin-bottom: 32px; }
@@ -129,7 +157,18 @@
             <li>Deployment guidance</li>
             <li>Manual onboarding</li>
           </ul>
-          <a class="button" href="/contact?plan=pro-beta">Request Pro Beta</a>
+          <div class="fast-track" aria-label="Fast Track Pro Beta">
+            <h3>Fast Track Pro Beta</h3>
+            <p>Want faster access? Contact us on WhatsApp first, confirm your use case, then pay the Pro Beta setup fee via PayPal. After payment confirmation, the JTDOS team will manually activate your Pro Beta access or schedule deployment support.</p>
+            <p class="safe-note">Important: Contact us before payment. Pro Beta access is manually reviewed.</p>
+            <p>Pro Beta is not automatic SaaS signup. Payment does not guarantee instant production deployment. Setup starts after confirmation.</p>
+            <div class="fast-track-actions">
+              <a id="fast-track-whatsapp" class="button secondary hidden" href="#" target="_blank" rel="noopener">Contact on WhatsApp</a>
+              <a class="button" href="/contact?plan=pro-beta">Request Pro Beta</a>
+              <span class="button disabled" aria-disabled="true">PayPal available after confirmation</span>
+            </div>
+            <div id="paypal-qr-block" class="paypal-qr-note hidden">PayPal QR is available only after WhatsApp confirmation and is managed outside the public Lite repository.</div>
+          </div>
         </article>
 
         <article class="plan">
@@ -148,5 +187,24 @@
         </article>
       </section>
     </main>
+    <script>
+      async function loadFastTrackConfig() {
+        try {
+          const response = await fetch("/api/public-config");
+          const config = await response.json();
+          const whatsappButton = document.getElementById("fast-track-whatsapp");
+          if (config.fast_track_whatsapp_configured && config.fast_track_whatsapp_url && whatsappButton) {
+            whatsappButton.href = config.fast_track_whatsapp_url;
+            whatsappButton.classList.remove("hidden");
+          }
+          if (config.paypal_qr_enabled) {
+            document.getElementById("paypal-qr-block")?.classList.remove("hidden");
+          }
+        } catch (error) {
+          // Fast Track config is optional in Lite; leave optional actions hidden.
+        }
+      }
+      loadFastTrackConfig();
+    </script>
   </body>
 </html>

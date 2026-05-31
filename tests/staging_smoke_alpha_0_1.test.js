@@ -105,6 +105,11 @@ async function run() {
     assert.ok(pricing.body.includes("Pro Beta"));
     assert.ok(pricing.body.includes("Starting from USD 999"));
     assert.ok(pricing.body.includes("Request Pro Beta"));
+    assert.ok(pricing.body.includes("Fast Track Pro Beta"));
+    assert.ok(pricing.body.includes("Contact us before payment"));
+    assert.ok(pricing.body.includes("PayPal available after confirmation"));
+    assert.ok(pricing.body.includes('id="fast-track-whatsapp"'));
+    assert.ok(pricing.body.includes("hidden"));
     assert.ok(pricing.body.includes("Private / Enterprise"));
     assert.ok(pricing.body.includes("Book Private Demo"));
 
@@ -113,10 +118,54 @@ async function run() {
     assert.ok(contact.body.includes("Interested Plan"));
     assert.ok(contact.body.includes("Company Type"));
     assert.ok(contact.body.includes("Estimated Monthly Inquiries"));
+    assert.ok(contact.body.includes("中文"));
+    assert.ok(contact.body.includes("Español"));
+    assert.ok(contact.body.includes("申请 JTDOS Pro Beta"));
+    assert.ok(contact.body.includes("Solicitar JTDOS Pro Beta"));
     assert.ok(contact.body.includes("Travel Agency"));
     assert.ok(contact.body.includes("Transfer Operator"));
     assert.ok(contact.body.includes("Pro Beta"));
+    assert.ok(contact.body.includes("For faster onboarding"));
+    assert.ok(contact.body.includes("PayPal payment is available after we confirm your use case"));
     assert.ok(contact.body.includes("Thank you. Your Pro Beta request has been received."));
+  });
+
+  await test("/api/public-config hides Fast Track WhatsApp when not configured", async () => {
+    const res = await callRoute({
+      url: "/api/public-config",
+      env: {
+        PUBLIC_FAST_TRACK_WHATSAPP: "",
+        PUBLIC_PAYPAL_PAYMENT_NOTE: "",
+        PUBLIC_PAYPAL_QR_ENABLED: "false",
+      },
+    });
+    const body = JSON.parse(res.body);
+    assert.equal(res.status, 200);
+    assert.equal(body.success, true);
+    assert.equal(body.fast_track_whatsapp_configured, false);
+    assert.equal(body.fast_track_whatsapp_url, "");
+    assert.equal(body.paypal_qr_enabled, false);
+    assert.equal(res.body.includes("API_KEY"), false);
+  });
+
+  await test("/api/public-config exposes only public Fast Track values when configured", async () => {
+    const res = await callRoute({
+      url: "/api/public-config",
+      env: {
+        PUBLIC_FAST_TRACK_WHATSAPP: "https://wa.me/0000000000",
+        PUBLIC_PAYPAL_PAYMENT_NOTE: "PayPal payment is available after confirmation.",
+        PUBLIC_PAYPAL_QR_ENABLED: "true",
+        JTDSS_API_KEY: "must-not-leak",
+      },
+    });
+    const body = JSON.parse(res.body);
+    assert.equal(res.status, 200);
+    assert.equal(body.success, true);
+    assert.equal(body.fast_track_whatsapp_configured, true);
+    assert.equal(body.fast_track_whatsapp_url, "https://wa.me/0000000000");
+    assert.equal(body.paypal_payment_note, "PayPal payment is available after confirmation.");
+    assert.equal(body.paypal_qr_enabled, true);
+    assert.equal(res.body.includes("must-not-leak"), false);
   });
 
   await test("contact mock submit returns Pro Beta lead response without requiring email integration", async () => {
