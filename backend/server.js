@@ -224,7 +224,7 @@ async function routeRequest(req, res) {
       success: true,
       plan: "pro",
       payment_status: "paid",
-      message: "Pro Cloud activated in mock mode.",
+      message: "Pro Cloud activated in mock mode. No real payment was processed.",
     });
   }
 

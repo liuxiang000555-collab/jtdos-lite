@@ -98,7 +98,7 @@
         <h1 id="page-title">Your JTDOS workspace</h1>
         <p id="page-copy">Lite users can preview the dashboard. Upgrade to Pro Cloud to unlock business configuration.</p>
         <div id="lite-status" class="status lite">Lite plan: Upgrade to Pro</div>
-        <div id="pro-status" class="status pro hidden">Pro plan: Pro features unlocked</div>
+        <div id="pro-status" class="status pro hidden">Pro features unlocked in demo mode.</div>
         <a id="upgrade-link" class="button" href="/upgrade">Upgrade to Pro</a>
       </section>
 
@@ -141,7 +141,7 @@
       document.getElementById("lite-status").classList.toggle("hidden", isPro);
       document.getElementById("pro-status").classList.toggle("hidden", !isPro);
       document.getElementById("upgrade-link").classList.toggle("hidden", isPro);
-      document.getElementById("page-title").textContent = isPro ? "Pro features unlocked" : "Your JTDOS workspace";
+      document.getElementById("page-title").textContent = isPro ? "Pro features unlocked in demo mode." : "Your JTDOS workspace";
       document.getElementById("page-copy").textContent = isPro
         ? "Your Pro Cloud mock workspace is active. You can now preview custom price tables, lead storage, notification settings, and connector screens."
         : "Lite users can preview the dashboard. Upgrade to Pro Cloud to unlock business configuration.";

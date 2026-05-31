@@ -110,21 +110,23 @@ async function run() {
     assert.ok(pricing.body.includes("Lite Free"));
     assert.ok(pricing.body.includes("Pro Cloud"));
     assert.ok(pricing.body.includes("USD 999"));
-    assert.ok(pricing.body.includes("Request Pro Cloud"));
+    assert.ok(pricing.body.includes("Request Pro Cloud Access"));
     assert.ok(pricing.body.includes('href="/contact?plan=pro-cloud"'));
     assert.equal(pricing.body.includes("Pay and unlock Pro Cloud"), false);
+    assert.equal(pricing.body.includes("Pay Now"), false);
     assert.ok(pricing.body.includes("Fast Track Pro Beta"));
     assert.ok(pricing.body.includes("Contact us before payment"));
     assert.ok(pricing.body.includes("PayPal available after confirmation"));
     assert.ok(pricing.body.includes("中文"));
     assert.ok(pricing.body.includes("Español"));
-    assert.ok(pricing.body.includes("申请 Pro Cloud"));
-    assert.ok(pricing.body.includes("Solicitar Pro Cloud"));
+    assert.ok(pricing.body.includes("申请 Pro Cloud Access"));
+    assert.ok(pricing.body.includes("Solicitar acceso a Pro Cloud"));
     assert.ok(pricing.body.includes('id="fast-track-whatsapp"'));
     assert.ok(pricing.body.includes("hidden"));
     assert.ok(pricing.body.includes("Private Source License"));
     assert.ok(pricing.body.includes("USD 9,999+"));
     assert.ok(pricing.body.includes("Request Private License"));
+    assert.ok(pricing.body.includes("No automatic source download"));
 
     const contact = await callRoute({ url: "/contact" });
     assert.equal(contact.status, 200);

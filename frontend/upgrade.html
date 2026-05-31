@@ -84,9 +84,9 @@
       </header>
 
       <section class="card">
-        <div class="eyebrow">Demo / Mock Payment</div>
+        <div class="eyebrow">Demo Mode / Mock Payment</div>
         <h1>JTDOS Pro Cloud</h1>
-        <p>This is a mock upgrade flow for product demonstration. Real payment activation will require Stripe / PayPal Checkout in production.</p>
+        <p>This page demonstrates the future Pro Cloud upgrade flow. Real payment activation will require production checkout and server-side payment verification.</p>
         <div class="price">USD 999 one-time setup</div>
         <ul>
           <li>Pro AI Booking Assistant</li>
@@ -96,7 +96,7 @@
           <li>Pro dashboard</li>
           <li>JTDSS connector configuration screen</li>
         </ul>
-        <button id="upgrade-button" type="button">Run Mock Upgrade</button>
+        <button id="upgrade-button" type="button">Simulate Pro Upgrade</button>
         <div class="note">No real payment is collected on this page. No real PayPal or Stripe API is connected, and no Private source package is delivered automatically.</div>
         <div id="result" aria-live="polite"></div>
       </section>
@@ -105,12 +105,12 @@
     <script>
       document.getElementById("upgrade-button").addEventListener("click", async () => {
         const result = document.getElementById("result");
-        result.textContent = "Activating Pro Cloud in mock mode...";
+          result.textContent = "Simulating Pro Cloud upgrade in mock mode...";
         const response = await fetch("/api/billing/mock-upgrade", { method: "POST" });
         const data = await response.json();
         if (data.success && data.plan === "pro") {
           localStorage.setItem("jtdos_mock_plan", "pro");
-          result.textContent = data.message;
+          result.textContent = "Pro Cloud activated in mock mode. No real payment was processed.";
           setTimeout(() => {
             window.location.href = "/dashboard?plan=pro";
           }, 700);

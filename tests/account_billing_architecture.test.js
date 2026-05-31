@@ -74,13 +74,13 @@ async function run() {
     assert.equal(body.success, true);
     assert.equal(body.plan, "pro");
     assert.equal(body.payment_status, "paid");
-    assert.equal(body.message, "Pro Cloud activated in mock mode.");
+    assert.equal(body.message, "Pro Cloud activated in mock mode. No real payment was processed.");
   });
 
   await test("Pro user can access dashboard preview", async () => {
     const res = await callRoute({ url: "/dashboard?plan=pro" });
     assert.equal(res.status, 200);
-    assert.ok(res.body.includes("Pro plan: Pro features unlocked"));
+    assert.ok(res.body.includes("Pro features unlocked in demo mode."));
     assert.ok(res.body.includes("Custom price tables"));
     assert.ok(res.body.includes("Lead storage settings"));
     assert.ok(res.body.includes("JTDSS connector configuration"));
@@ -100,9 +100,10 @@ async function run() {
     assert.ok(res.body.includes("Pro Cloud"));
     assert.ok(res.body.includes("USD 999"));
     assert.ok(res.body.includes("Request Pro Cloud access"));
-    assert.ok(res.body.includes("Request Pro Cloud"));
+    assert.ok(res.body.includes("Request Pro Cloud Access"));
     assert.ok(res.body.includes('href="/contact?plan=pro-cloud"'));
     assert.equal(res.body.includes("Pay and unlock Pro Cloud"), false);
+    assert.equal(res.body.includes("Pay Now"), false);
   });
 
   await test("Private shows USD 9,999+ and manual approval", async () => {
@@ -111,23 +112,26 @@ async function run() {
     assert.ok(res.body.includes("Private Source License"));
     assert.ok(res.body.includes("USD 9,999+"));
     assert.ok(res.body.includes("Manual approval required"));
+    assert.ok(res.body.includes("Commercial license"));
+    assert.ok(res.body.includes("No automatic source download"));
     assert.ok(res.body.includes("Request Private License"));
   });
 
   await test("Private does not auto-download source", async () => {
     const res = await callRoute({ url: "/pricing" });
     assert.equal(res.status, 200);
-    assert.equal(/download/i.test(res.body), false);
     assert.equal(/href=["'][^"']*source/i.test(res.body), false);
-    assert.equal(/automatic source/i.test(res.body), false);
+    assert.ok(res.body.includes("No automatic source download"));
   });
 
   await test("Upgrade page presents mock payment only", async () => {
     const res = await callRoute({ url: "/upgrade" });
     assert.equal(res.status, 200);
     assert.ok(res.body.includes("USD 999 one-time setup"));
-    assert.ok(res.body.includes("Demo / Mock Payment"));
-    assert.ok(res.body.includes("This is a mock upgrade flow for product demonstration. Real payment activation will require Stripe / PayPal Checkout in production."));
+    assert.ok(res.body.includes("Demo Mode / Mock Payment"));
+    assert.ok(res.body.includes("This page demonstrates the future Pro Cloud upgrade flow. Real payment activation will require production checkout and server-side payment verification."));
+    assert.ok(res.body.includes("Simulate Pro Upgrade"));
+    assert.ok(res.body.includes("Pro Cloud activated in mock mode. No real payment was processed."));
     assert.ok(res.body.includes("No real PayPal or Stripe API is connected"));
   });
 
