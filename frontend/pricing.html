@@ -29,6 +29,20 @@
       .brand { font-size: 20px; font-weight: 800; }
       nav { display: flex; flex-wrap: wrap; gap: 16px; }
       nav a { color: var(--muted); font-weight: 700; text-decoration: none; }
+      .header-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+      .language-switcher { display: inline-flex; gap: 8px; padding: 6px; background: #EEF2F7; border-radius: 14px; }
+      .language-switcher button {
+        min-height: 38px;
+        border: 0;
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .language-switcher button.active { background: var(--primary); color: #fff; }
       .hero { padding: 48px 0 56px; max-width: 780px; }
       .eyebrow { color: var(--primary); font-weight: 800; margin-bottom: 16px; }
       h1 { font-size: clamp(42px, 6vw, 68px); line-height: 1; margin: 0 0 18px; }
@@ -108,6 +122,7 @@
       @media (max-width: 900px) {
         main { padding: 24px 16px 40px; }
         header { align-items: flex-start; flex-direction: column; margin-bottom: 32px; }
+        .header-actions { align-items: flex-start; flex-direction: column; }
         .grid { grid-template-columns: 1fr; }
         .plan { min-height: auto; }
       }
@@ -117,77 +132,225 @@
     <main>
       <header>
         <div class="brand">JTDOS Lite</div>
-        <nav aria-label="Main navigation">
-          <a href="/">Home</a>
-          <a href="/ai-booking">AI Booking</a>
-          <a href="/contact">Contact</a>
-        </nav>
+        <div class="header-actions">
+          <nav aria-label="Main navigation">
+            <a href="/" data-i18n="navHome">Home</a>
+            <a href="/ai-booking" data-i18n="navBooking">AI Booking</a>
+            <a href="/contact" data-i18n="navContact">Contact</a>
+          </nav>
+          <div class="language-switcher" aria-label="Language switcher">
+            <button type="button" class="active" data-lang="en">EN</button>
+            <button type="button" data-lang="zh">中文</button>
+            <button type="button" data-lang="es">Español</button>
+          </div>
+        </div>
       </header>
 
       <section class="hero">
-        <div class="eyebrow">Lite demo, Pro Beta, and private deployment</div>
-        <h1>Start with Lite. Request Pro Beta when you are ready to test with your own workflow.</h1>
-        <p>JTDOS Lite is the public demo. JTDOS Pro Beta is a selected-access deployment package for agencies and operators who want custom pricing, AI booking automation, notifications, and human onboarding support.</p>
+        <div class="eyebrow" data-i18n="eyebrow">Lite demo, Pro Beta, and private deployment</div>
+        <h1 data-i18n="heroTitle">Start with Lite. Request Pro Beta when you are ready to test with your own workflow.</h1>
+        <p data-i18n="heroText">JTDOS Lite is the public demo. JTDOS Pro Beta is a selected-access deployment package for agencies and operators who want custom pricing, AI booking automation, notifications, and human onboarding support.</p>
       </section>
 
       <section class="grid" aria-label="Pricing plans">
         <article class="plan">
-          <span class="badge">Evaluation</span>
+          <span class="badge" data-i18n="liteBadge">Evaluation</span>
           <h2>Lite Free</h2>
-          <div class="price">Try the public demo</div>
+          <div class="price" data-i18n="litePrice">Try the public demo</div>
           <ul>
-            <li>Try the public demo</li>
-            <li>Mock data only</li>
-            <li>AI booking assistant demo</li>
-            <li>Airport pickup, transfer, and charter inquiry examples</li>
-            <li>For evaluation and developers</li>
+            <li data-i18n="liteItemDemo">Try the public demo</li>
+            <li data-i18n="liteItemMock">Mock data only</li>
+            <li data-i18n="liteItemAi">AI booking assistant demo</li>
+            <li data-i18n="liteItemAirport">Airport pickup, transfer, and charter inquiry examples</li>
+            <li data-i18n="liteItemEvaluation">For evaluation and developers</li>
           </ul>
-          <a class="button secondary" href="/ai-booking">Try Lite Demo</a>
+          <a class="button secondary" href="/ai-booking" data-i18n="liteCta">Try Lite Demo</a>
         </article>
 
         <article class="plan featured">
-          <span class="badge">Selected access</span>
+          <span class="badge" data-i18n="proBadge">Selected access</span>
           <h2>Pro Beta</h2>
-          <div class="price">Starting from USD 999</div>
+          <div class="price" data-i18n="proPrice">Starting from USD 999</div>
           <ul>
-            <li>For agencies and operators</li>
-            <li>Custom price table</li>
-            <li>AI Booking Assistant</li>
-            <li>Notification setup</li>
-            <li>Deployment guidance</li>
-            <li>Manual onboarding</li>
+            <li data-i18n="proItemAgencies">For agencies and operators</li>
+            <li data-i18n="proItemPrice">Custom price table</li>
+            <li data-i18n="proItemAi">AI Booking Assistant</li>
+            <li data-i18n="proItemNotification">Notification setup</li>
+            <li data-i18n="proItemDeploy">Deployment guidance</li>
+            <li data-i18n="proItemOnboarding">Manual onboarding</li>
           </ul>
           <div class="fast-track" aria-label="Fast Track Pro Beta">
             <h3>Fast Track Pro Beta</h3>
-            <p>Want faster access? Contact us on WhatsApp first, confirm your use case, then pay the Pro Beta setup fee via PayPal. After payment confirmation, the JTDOS team will manually activate your Pro Beta access or schedule deployment support.</p>
-            <p class="safe-note">Important: Contact us before payment. Pro Beta access is manually reviewed.</p>
-            <p>Pro Beta is not automatic SaaS signup. Payment does not guarantee instant production deployment. Setup starts after confirmation.</p>
+            <p data-i18n="fastTrackText">Want faster access? Contact us on WhatsApp first, confirm your use case, then pay the Pro Beta setup fee via PayPal. After payment confirmation, the JTDOS team will manually activate your Pro Beta access or schedule deployment support.</p>
+            <p class="safe-note" data-i18n="fastTrackImportant">Important: Contact us before payment. Pro Beta access is manually reviewed.</p>
+            <p data-i18n="fastTrackSafety">Pro Beta is not automatic SaaS signup. Payment does not guarantee instant production deployment. Setup starts after confirmation.</p>
             <div class="fast-track-actions">
-              <a id="fast-track-whatsapp" class="button secondary hidden" href="#" target="_blank" rel="noopener">Contact on WhatsApp</a>
-              <a class="button" href="/contact?plan=pro-beta">Request Pro Beta</a>
-              <span class="button disabled" aria-disabled="true">PayPal available after confirmation</span>
+              <a id="fast-track-whatsapp" class="button secondary hidden" href="#" target="_blank" rel="noopener" data-i18n="whatsappCta">Contact on WhatsApp</a>
+              <a class="button" href="/contact?plan=pro-beta" data-i18n="proCta">Request Pro Beta</a>
+              <span class="button disabled" aria-disabled="true" data-i18n="paypalAfter">PayPal available after confirmation</span>
             </div>
-            <div id="paypal-qr-block" class="paypal-qr-note hidden">PayPal QR is available only after WhatsApp confirmation and is managed outside the public Lite repository.</div>
+            <div id="paypal-qr-block" class="paypal-qr-note hidden" data-i18n="paypalQrNote">PayPal QR is available only after WhatsApp confirmation and is managed outside the public Lite repository.</div>
           </div>
         </article>
 
         <article class="plan">
-          <span class="badge">Private</span>
+          <span class="badge" data-i18n="privateBadge">Private</span>
           <h2>Private / Enterprise</h2>
-          <div class="price">Custom quote</div>
+          <div class="price" data-i18n="privatePrice">Custom quote</div>
           <ul>
-            <li>Private deployment</li>
-            <li>API integration</li>
-            <li>JTDSS connector</li>
-            <li>Supplier workflow</li>
-            <li>Custom operations</li>
-            <li>Custom workflow</li>
+            <li data-i18n="privateItemDeploy">Private deployment</li>
+            <li data-i18n="privateItemApi">API integration</li>
+            <li data-i18n="privateItemConnector">JTDSS connector</li>
+            <li data-i18n="privateItemSupplier">Supplier workflow</li>
+            <li data-i18n="privateItemOps">Custom operations</li>
+            <li data-i18n="privateItemWorkflow">Custom workflow</li>
           </ul>
-          <a class="button secondary" href="/contact?plan=private">Book Private Demo</a>
+          <a class="button secondary" href="/contact?plan=private" data-i18n="privateCta">Book Private Demo</a>
         </article>
       </section>
     </main>
     <script>
+      const translations = {
+        en: {
+          navHome: "Home",
+          navBooking: "AI Booking",
+          navContact: "Contact",
+          eyebrow: "Lite demo, Pro Beta, and private deployment",
+          heroTitle: "Start with Lite. Request Pro Beta when you are ready to test with your own workflow.",
+          heroText: "JTDOS Lite is the public demo. JTDOS Pro Beta is a selected-access deployment package for agencies and operators who want custom pricing, AI booking automation, notifications, and human onboarding support.",
+          liteBadge: "Evaluation",
+          litePrice: "Try the public demo",
+          liteItemDemo: "Try the public demo",
+          liteItemMock: "Mock data only",
+          liteItemAi: "AI booking assistant demo",
+          liteItemAirport: "Airport pickup, transfer, and charter inquiry examples",
+          liteItemEvaluation: "For evaluation and developers",
+          liteCta: "Try Lite Demo",
+          proBadge: "Selected access",
+          proPrice: "Starting from USD 999",
+          proItemAgencies: "For agencies and operators",
+          proItemPrice: "Custom price table",
+          proItemAi: "AI Booking Assistant",
+          proItemNotification: "Notification setup",
+          proItemDeploy: "Deployment guidance",
+          proItemOnboarding: "Manual onboarding",
+          fastTrackText: "Want faster access? Contact us on WhatsApp first, confirm your use case, then pay the Pro Beta setup fee via PayPal. After payment confirmation, the JTDOS team will manually activate your Pro Beta access or schedule deployment support.",
+          fastTrackImportant: "Important: Contact us before payment. Pro Beta access is manually reviewed.",
+          fastTrackSafety: "Pro Beta is not automatic SaaS signup. Payment does not guarantee instant production deployment. Setup starts after confirmation.",
+          whatsappCta: "Contact on WhatsApp",
+          proCta: "Request Pro Beta",
+          paypalAfter: "PayPal available after confirmation",
+          paypalQrNote: "PayPal QR is available only after WhatsApp confirmation and is managed outside the public Lite repository.",
+          privateBadge: "Private",
+          privatePrice: "Custom quote",
+          privateItemDeploy: "Private deployment",
+          privateItemApi: "API integration",
+          privateItemConnector: "JTDSS connector",
+          privateItemSupplier: "Supplier workflow",
+          privateItemOps: "Custom operations",
+          privateItemWorkflow: "Custom workflow",
+          privateCta: "Book Private Demo",
+        },
+        zh: {
+          navHome: "首页",
+          navBooking: "AI 预约演示",
+          navContact: "联系我们",
+          eyebrow: "Lite 演示、Pro Beta 与私有部署",
+          heroTitle: "先从 Lite 体验开始，准备好后申请 Pro Beta 接入自己的业务流程。",
+          heroText: "JTDOS Lite 是公开演示版。JTDOS Pro Beta 面向旅行社和用车运营商，提供自定义价格表、AI 预约自动化、通知设置和人工上线支持。",
+          liteBadge: "评估体验",
+          litePrice: "试用公开演示",
+          liteItemDemo: "试用公开演示",
+          liteItemMock: "仅使用 mock 数据",
+          liteItemAi: "AI 预约助手演示",
+          liteItemAirport: "接送机、点对点和包车咨询示例",
+          liteItemEvaluation: "适合评估和开发者查看",
+          liteCta: "试用 Lite Demo",
+          proBadge: "人工筛选开通",
+          proPrice: "USD 999 起",
+          proItemAgencies: "面向旅行社和用车运营商",
+          proItemPrice: "自定义价格表",
+          proItemAi: "AI 预约助手",
+          proItemNotification: "通知设置",
+          proItemDeploy: "部署指导",
+          proItemOnboarding: "人工 onboarding",
+          fastTrackText: "想更快开通？请先通过 WhatsApp 联系我们，确认您的使用场景后，再通过 PayPal 支付 Pro Beta setup fee。付款确认后，JTDOS 团队会人工开通 Pro Beta 或安排部署支持。",
+          fastTrackImportant: "重要：付款前请先联系我们。Pro Beta 需要人工审核。",
+          fastTrackSafety: "Pro Beta 不是自动 SaaS 注册。付款不代表立即完成生产部署，确认后才会开始设置。",
+          whatsappCta: "通过 WhatsApp 联系",
+          proCta: "申请 Pro Beta",
+          paypalAfter: "PayPal 确认后可用",
+          paypalQrNote: "PayPal QR 只会在 WhatsApp 确认后提供，并且不会放入公开 Lite 仓库。",
+          privateBadge: "私有部署",
+          privatePrice: "定制报价",
+          privateItemDeploy: "私有部署",
+          privateItemApi: "API 集成",
+          privateItemConnector: "JTDSS 连接器",
+          privateItemSupplier: "供应商流程",
+          privateItemOps: "定制运营",
+          privateItemWorkflow: "定制工作流",
+          privateCta: "预约 Private 演示",
+        },
+        es: {
+          navHome: "Inicio",
+          navBooking: "Demo AI Booking",
+          navContact: "Contacto",
+          eyebrow: "Demo Lite, Pro Beta y despliegue privado",
+          heroTitle: "Empiece con Lite. Solicite Pro Beta cuando esté listo para probarlo con su propio flujo.",
+          heroText: "JTDOS Lite es la demo pública. JTDOS Pro Beta es un paquete de acceso seleccionado para agencias y operadores que necesitan precios personalizados, automatización AI Booking, notificaciones y soporte humano de implementación.",
+          liteBadge: "Evaluación",
+          litePrice: "Probar la demo pública",
+          liteItemDemo: "Probar la demo pública",
+          liteItemMock: "Solo datos mock",
+          liteItemAi: "Demo del asistente AI Booking",
+          liteItemAirport: "Ejemplos de recogida, traslado y chárter",
+          liteItemEvaluation: "Para evaluación y desarrolladores",
+          liteCta: "Probar Lite Demo",
+          proBadge: "Acceso seleccionado",
+          proPrice: "Desde USD 999",
+          proItemAgencies: "Para agencias y operadores",
+          proItemPrice: "Tabla de precios personalizada",
+          proItemAi: "AI Booking Assistant",
+          proItemNotification: "Configuración de notificaciones",
+          proItemDeploy: "Guía de despliegue",
+          proItemOnboarding: "Onboarding manual",
+          fastTrackText: "¿Quiere acceso más rápido? Contáctenos primero por WhatsApp, confirme su caso de uso y después pague la tarifa de configuración Pro Beta por PayPal. Tras confirmar el pago, el equipo de JTDOS activará manualmente su acceso o programará soporte de despliegue.",
+          fastTrackImportant: "Importante: contáctenos antes de pagar. El acceso Pro Beta se revisa manualmente.",
+          fastTrackSafety: "Pro Beta no es un registro SaaS automático. El pago no garantiza despliegue productivo inmediato. La configuración empieza después de la confirmación.",
+          whatsappCta: "Contactar por WhatsApp",
+          proCta: "Solicitar Pro Beta",
+          paypalAfter: "PayPal disponible tras confirmación",
+          paypalQrNote: "El QR de PayPal solo está disponible después de la confirmación por WhatsApp y se gestiona fuera del repositorio público Lite.",
+          privateBadge: "Privado",
+          privatePrice: "Presupuesto personalizado",
+          privateItemDeploy: "Despliegue privado",
+          privateItemApi: "Integración API",
+          privateItemConnector: "Conector JTDSS",
+          privateItemSupplier: "Flujo de proveedores",
+          privateItemOps: "Operaciones personalizadas",
+          privateItemWorkflow: "Flujo personalizado",
+          privateCta: "Reservar demo Private",
+        },
+      };
+
+      function applyLanguage(language) {
+        const lang = translations[language] ? language : "en";
+        localStorage.setItem("jtdos_site_lang", lang);
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          const key = node.dataset.i18n;
+          if (translations[lang][key]) node.textContent = translations[lang][key];
+        });
+        document.querySelectorAll("[data-lang]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === lang);
+        });
+      }
+
+      document.querySelectorAll("[data-lang]").forEach((button) => {
+        button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+      });
+      applyLanguage(localStorage.getItem("jtdos_site_lang") || "en");
+
       async function loadFastTrackConfig() {
         try {
           const response = await fetch("/api/public-config");

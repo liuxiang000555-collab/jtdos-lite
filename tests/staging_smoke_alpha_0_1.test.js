@@ -98,6 +98,10 @@ async function run() {
     assert.equal(landing.status, 200);
     assert.ok(landing.body.includes("JTDOS AI Japan Travel Sales Assistant"));
     assert.ok(landing.body.includes("Try AI Booking Demo"));
+    assert.ok(landing.body.includes("中文"));
+    assert.ok(landing.body.includes("Español"));
+    assert.ok(landing.body.includes("把日本用车咨询变成可预约的销售对话"));
+    assert.ok(landing.body.includes("Convierte consultas de traslados"));
 
     const pricing = await callRoute({ url: "/pricing" });
     assert.equal(pricing.status, 200);
@@ -108,6 +112,10 @@ async function run() {
     assert.ok(pricing.body.includes("Fast Track Pro Beta"));
     assert.ok(pricing.body.includes("Contact us before payment"));
     assert.ok(pricing.body.includes("PayPal available after confirmation"));
+    assert.ok(pricing.body.includes("中文"));
+    assert.ok(pricing.body.includes("Español"));
+    assert.ok(pricing.body.includes("申请 Pro Beta"));
+    assert.ok(pricing.body.includes("Solicitar Pro Beta"));
     assert.ok(pricing.body.includes('id="fast-track-whatsapp"'));
     assert.ok(pricing.body.includes("hidden"));
     assert.ok(pricing.body.includes("Private / Enterprise"));

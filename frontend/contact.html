@@ -297,11 +297,11 @@
         },
       };
 
-      let currentLanguage = localStorage.getItem("jtdos_contact_lang") || "en";
+      let currentLanguage = localStorage.getItem("jtdos_site_lang") || "en";
 
       function applyLanguage(language) {
         currentLanguage = translations[language] ? language : "en";
-        localStorage.setItem("jtdos_contact_lang", currentLanguage);
+        localStorage.setItem("jtdos_site_lang", currentLanguage);
         document.documentElement.lang = currentLanguage === "zh" ? "zh-CN" : currentLanguage;
         const dictionary = translations[currentLanguage];
 

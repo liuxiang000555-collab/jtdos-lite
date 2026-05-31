@@ -271,8 +271,31 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           missingNatural: "I roughly understand your request. To give a more accurate price, I still need:\n{fields}",
           readyForQuote: "Great, I have enough information to estimate the price.",
           quoteGeneratedChat: "Based on your route, I recommend {vehicle}. Estimated price: JPY {price}.",
+          reviewQuoteGeneratedChat: "I can prepare this as an estimated booking request for Japan operations review.",
           fixedExplanation: "This is the fixed estimated price for this route. It includes driver, vehicle, fuel, highway toll, and parking. Final vehicle arrangement still depends on actual availability.",
           reviewExplanation: "This request involves a special condition and needs confirmation by the Japan operations team before the final price or vehicle arrangement.",
+          luxurySpecialIntro: "Sure. This is a luxury vehicle request. Vehicles such as Rolls-Royce, Mercedes S-Class, or Lexus LM need to be confirmed based on date, route, and availability by our Japan operations team. It cannot be treated as a standard fixed-price Alphard / HiAce transfer. May I confirm your date, route, and passenger count?",
+          driverSpecialIntro: "I can record your driver language or female driver request. These requests depend on region, date, and driver availability, so our Japan operations team needs to confirm them. Could you tell me whether this is an airport transfer, point-to-point transfer, or charter service?",
+          guideSpecialIntro: "I can record the guide or driver-guide request. The driver is mainly responsible for transportation; professional explanation or foreign-language guiding needs separate confirmation and quote by our Japan operations team.",
+          skiSpecialIntro: "If you have ski bags or snowboards, vehicle selection needs to be more careful. For Hokkaido winter trips, HiAce is usually safer when there are multiple passengers, large suitcases, and ski equipment. How many passengers, suitcases, and ski bags will you have?",
+          childStrollerSpecialIntro: "Child seats can usually be arranged at JPY 1,000 per seat. A baby stroller counts toward luggage space, so I will consider it when recommending the vehicle. May I know the child’s age, how many child seats are needed, and how many strollers you have?",
+          signageSpecialIntro: "Airport name sign service can be arranged, usually for JPY 2,000. The driver or greeter will wait with the confirmed name sign at the airport. May I confirm the airport, arrival date, and approximate arrival time?",
+          multipleVehiclesSpecialIntro: "I can record the multiple-vehicle request. Vehicle count, driver availability, and final dispatch arrangement need confirmation by our Japan operations team. May I confirm the route, date, passengers, and luggage?",
+          vipSpecialIntro: "This is a VIP airport or private jet arrangement. Access, vehicle, and meeting flow need manual confirmation by our Japan operations team before we can provide a final quote.",
+          autoQuoteIntro: "I already have the key route, passenger, and luggage information, so I’ll estimate the price first. We can confirm exact pickup time or flight number later.",
+          multiDayReviewExplanation: "For multi-day charter, I can prepare an estimated booking request first, but the final price needs to be reviewed by our Japan operations team based on the daily route, service hours, driver accommodation, and vehicle availability. A standard multi-day charter is usually calculated by 10 hours per day, and driver accommodation is commonly estimated at JPY 8,000 per night.",
+          charterSalesExplanation: "For a one-day charter from Tokyo to Mt. Fuji / Kawaguchiko, I recommend arranging it as a 10-hour charter rather than a simple point-to-point transfer. This gives more flexibility for weather, parking, photo stops, and sightseeing time.\n\nA standard charter usually includes driver, vehicle, fuel, highway toll, and parking fee. The final recommendation depends on passenger count, luggage, travel date, and detailed itinerary.\n\nMay I confirm:\n1. How many passengers?\n2. How many large suitcases?\n3. Would you like to visit only Mt. Fuji / Kawaguchiko, or also Oshino Hakkai / Gotemba Outlet?",
+          luxuryReviewExplanation: "This is a luxury vehicle request. Availability, exact model, and final price need to be confirmed by our Japan operations team. I can prepare a booking request first, but this cannot be treated as a fixed-price standard transfer.",
+          englishDriverReviewExplanation: "An English-speaking driver needs confirmation based on date, region, and vehicle availability. I can record this request and submit it to the Japan operations team.",
+          femaleDriverReviewExplanation: "Female driver availability is limited and needs confirmation by the Japan operations team.",
+          guideReviewExplanation: "The driver is mainly responsible for transportation and route execution. If you need professional explanation or foreign-language guide service, it needs separate confirmation and quote.",
+          transferExtraStopExplanation: "A standard transfer normally does not include lunch, shopping, or sightseeing stops on the way. A short restroom / convenience-store stop of about 10 minutes may be possible. If you would like to stop for lunch, shopping, or sightseeing, I recommend changing this to a charter service and I can estimate it that way.",
+          shortRestroomStopExplanation: "A short restroom or convenience-store stop of about 10 minutes may be possible during a standard transfer. Longer lunch, shopping, or sightseeing stops should be estimated as charter service.",
+          childSeatNotice: "Child seat fee is JPY 1,000 per seat. Please also tell us the child’s age so the Japan operations team can confirm the suitable seat.",
+          strollerNotice: "A baby stroller counts as luggage space, so I will consider it together with suitcases when recommending the vehicle.",
+          signageNotice: "Airport name sign / placard service can be arranged for JPY 2,000. The driver can hold the name sign at the arrival meeting point.",
+          nightPeakNotice: "Night service between 21:00 and 07:00 has a 20% surcharge. During peak season, the base route price may use the peak price unless early booking protection applies.",
+          missingPassengerForVehicle: "I understand the route and luggage details. To recommend the right vehicle and estimate the price more accurately, how many passengers will travel?",
           contactRequired: "Please enter your name and at least one contact method.",
           contactIntro: "If you would like us to continue checking vehicle availability, please leave your WhatsApp, Email, or LINE. Our Japan operations team will follow up with vehicle and driver availability.",
           submittedChat: "Your booking request has been submitted to the Japan operations team.\nWe will confirm vehicle availability and driver arrangement.\nIf you accept the quote, a 20% deposit is usually required to secure the vehicle.",
@@ -321,8 +344,31 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           missingNatural: "我已经大概理解您的需求了。为了给您更准确的价格，还需要确认几个信息：\n{fields}",
           readyForQuote: "好的，信息已经足够，我可以先为您估算价格。",
           quoteGeneratedChat: "根据您的情况，我建议使用 {vehicle}。预估价格：JPY {price}。",
+          reviewQuoteGeneratedChat: "我可以先为您整理成预约请求，由日本运营团队继续确认。",
           fixedExplanation: "这是该路线的固定预估价格，已包含司机、车辆、燃油、高速费和停车费。最终车辆安排仍需根据实际空位确认。",
           reviewExplanation: "这个需求涉及特殊情况，需要日本运营团队确认后给出最终价格或车辆安排。",
+          luxurySpecialIntro: "可以的，您需要的是豪华车型。劳斯莱斯、奔驰 S 级、雷克萨斯 LM 这类车辆需要根据日期、路线和车辆空位由日本运营团队确认。它不能按普通 Alphard / HiAce 固定价处理。我可以先帮您记录需求。请问用车日期、路线和乘车人数是多少？",
+          driverSpecialIntro: "可以记录您的司机语言或女司机需求。这类司机资源需要根据地区、日期和车辆空位确认，所以需要日本运营团队进一步确认。请问您是接送机、点对点，还是包车服务？",
+          guideSpecialIntro: "可以记录您的司机兼导游或讲解需求。司机主要负责驾驶和路线执行；如果需要专业讲解或外语导游服务，需要日本运营团队另行确认并报价。",
+          skiSpecialIntro: "有滑雪板的话，车型需要更谨慎。尤其是北海道冬季，4个人、多个大箱和雪具时，通常更建议 HiAce，避免现场行李放不下。请问一共有几位客人、几个大行李、几个雪板包？",
+          childStrollerSpecialIntro: "可以安排儿童座椅，儿童座椅费用通常为 JPY 1,000 / 个。婴儿车会计入行李空间，我会一起考虑车型。请问小朋友几岁？需要几个儿童座椅？有几台婴儿车？",
+          signageSpecialIntro: "可以安排接机举牌服务，费用通常为 JPY 2,000。司机或接机人员会按确认后的姓名牌在机场等待。请问您是哪个机场、到达日期和航班大概时间？",
+          multipleVehiclesSpecialIntro: "可以记录您的多辆车需求。车辆数量、司机空位和最终派车安排需要日本运营团队确认。请问路线、日期、人数和行李数量是多少？",
+          vipSpecialIntro: "这属于机场 VIP 或私人飞机相关服务，机场权限、车辆、接待流程都需要日本运营团队人工确认后才能报价。",
+          autoQuoteIntro: "您已经给到路线、人数和行李这些关键信息了，我先帮您估算价格。具体接送时间或航班号后续再确认也可以。",
+          multiDayReviewExplanation: "多日包车可以先为您做预估，但最终价格需要日本运营团队根据每天路线、服务时间、司机住宿和车辆档期确认。一般多日包车每天按 10 小时服务计算，司机住宿补贴通常按每晚 JPY 8,000 估算。",
+          charterSalesExplanation: "可以的。东京出发去富士山 / 河口湖很适合做一日包车，通常会按 10 小时服务来安排。这样比单纯点对点更适合，因为沿途可能会根据天气、停车、拍照和景点停留来调整行程。\n\n包车通常包含司机、车辆、燃油、高速费和停车费。价格会根据车型、人数、行李数量、日期和具体路线确认。\n\n为了帮您更准确推荐车型和估算价格，请问：\n1. 几位客人？\n2. 有几个大行李？\n3. 您主要想去富士山、河口湖，还是还想加忍野八海 / 奥特莱斯等地点？",
+          luxuryReviewExplanation: "您需要的是豪华车型，这类车辆需要日本运营团队确认车辆空位、具体车型和最终价格。我可以先为您记录预约需求，但不会直接给出固定报价。",
+          englishDriverReviewExplanation: "英文司机需要根据日期、地区和车辆空位确认，我可以先为您记录需求并提交日本运营团队确认。",
+          femaleDriverReviewExplanation: "女司机资源有限，需要日本运营团队确认是否可安排。",
+          guideReviewExplanation: "司机主要负责驾驶和路线执行；如果需要专业讲解或外语导游服务，需要另行确认并报价。",
+          transferExtraStopExplanation: "普通接送机或点对点用车通常不包含中途吃饭、购物或观光停靠。如果只是上洗手间，可以短暂停靠便利店约 10 分钟；如果需要吃饭、购物或景点停留，建议改为包车服务，我可以帮您按包车方式重新估算。",
+          shortRestroomStopExplanation: "普通接送途中，如果只是上洗手间或便利店短暂停靠，约 10 分钟通常可以沟通安排；如果需要吃饭、购物或观光停留，建议改为包车服务。",
+          childSeatNotice: "儿童座椅费用为 JPY 1,000 / 个。请再告诉我们小朋友年龄，日本运营团队会确认适合的座椅类型。",
+          strollerNotice: "婴儿车会计入行李空间，我会和行李数量一起考虑车型，避免现场空间不够。",
+          signageNotice: "机场举牌服务可以安排，费用为 JPY 2,000。司机可在到达口集合点举姓名牌等候。",
+          nightPeakNotice: "21:00–07:00 属于夜间服务，会加收 20%。如果日期在旺季，基础路线价格可能使用旺季价格；若符合早鸟保护，则仍可使用常规基础价。",
+          missingPassengerForVehicle: "我已经理解您的路线和行李情况了。为了更准确推荐车型和估算价格，请问一共几位客人出行？",
           contactRequired: "请填写姓名，并至少填写一种联系方式。",
           contactIntro: "如果您希望我们继续确认车辆空位，可以留下 WhatsApp、Email 或 LINE。日本运营团队会根据车辆和司机安排继续确认。",
           submittedChat: "您的预约请求已提交给日本运营团队。\n我们会根据车辆空位和司机安排确认最终信息。\n如果您接受报价，通常需要支付订单总额 20% 的定金以锁定车辆。",
@@ -371,8 +417,31 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           missingNatural: "Ya entiendo la idea general. Para darte un precio más preciso, necesito confirmar:\n{fields}",
           readyForQuote: "Perfecto, tengo suficiente información para estimar el precio.",
           quoteGeneratedChat: "Según tu caso, recomiendo {vehicle}. Precio estimado: JPY {price}.",
+          reviewQuoteGeneratedChat: "Puedo preparar esta solicitud estimada para que el equipo en Japón la revise.",
           fixedExplanation: "Este es el precio estimado fijo para esta ruta. Incluye conductor, vehículo, combustible, peajes y estacionamiento. La asignación final del vehículo depende de disponibilidad.",
           reviewExplanation: "Esta solicitud tiene condiciones especiales y requiere confirmación del equipo de operaciones en Japón.",
+          luxurySpecialIntro: "Claro. Esta es una solicitud de vehículo de lujo. Vehículos como Rolls-Royce, Mercedes Clase S o Lexus LM deben ser confirmados por nuestro equipo en Japón según la fecha, ruta y disponibilidad.",
+          driverSpecialIntro: "Puedo registrar su solicitud de idioma del conductor o conductora. Estas solicitudes dependen de la región, fecha y disponibilidad del conductor, por lo que nuestro equipo en Japón debe confirmarlas.",
+          guideSpecialIntro: "Puedo registrar la solicitud de guía o conductor-guía. El conductor se encarga principalmente del transporte; una explicación profesional o guía en otro idioma requiere confirmación y cotización separada.",
+          skiSpecialIntro: "Si llevan equipos de esquí o snowboard, la elección del vehículo debe ser más cuidadosa. Para viajes de invierno en Hokkaido, normalmente recomiendo HiAce cuando hay varias maletas grandes y equipo de esquí.",
+          childStrollerSpecialIntro: "Las sillas infantiles normalmente se pueden organizar por JPY 1,000 por asiento. Un cochecito de bebé cuenta como espacio de equipaje, así que lo consideraré al recomendar el vehículo.",
+          signageSpecialIntro: "El servicio de cartel con nombre en el aeropuerto se puede organizar normalmente por JPY 2,000. El conductor o recibidor esperará con el nombre confirmado en el aeropuerto.",
+          multipleVehiclesSpecialIntro: "Puedo registrar la solicitud de varios vehículos. El número de vehículos, conductores y arreglo final deben ser confirmados por nuestro equipo en Japón.",
+          vipSpecialIntro: "Esta es una solicitud de servicio VIP en aeropuerto o jet privado. El acceso, vehículo y flujo de recepción deben ser confirmados manualmente por nuestro equipo en Japón.",
+          autoQuoteIntro: "Ya tengo la ruta, pasajeros y equipaje principales, así que puedo estimar el precio primero. La hora exacta o número de vuelo se puede confirmar más tarde.",
+          multiDayReviewExplanation: "Para un chárter de varios días, puedo preparar una solicitud estimada, pero el precio final debe ser revisado por nuestro equipo en Japón según la ruta diaria, las horas de servicio, el alojamiento del conductor y la disponibilidad del vehículo.",
+          charterSalesExplanation: "Para un chárter de un día desde Tokio a Mt. Fuji / Kawaguchiko, normalmente recomiendo organizarlo como un servicio de 10 horas en lugar de un traslado simple. Esto permite más flexibilidad para el clima, estacionamiento, paradas para fotos y tiempo de visita.\n\nUn chárter estándar normalmente incluye conductor, vehículo, combustible, peajes y estacionamiento. La recomendación final depende del número de pasajeros, equipaje, fecha y ruta detallada.",
+          luxuryReviewExplanation: "Esta es una solicitud de vehículo de lujo. La disponibilidad, el modelo exacto y el precio final deben ser confirmados por nuestro equipo en Japón.",
+          englishDriverReviewExplanation: "Un conductor que habla inglés debe confirmarse según la fecha, región y disponibilidad del vehículo. Puedo registrar la solicitud para revisión del equipo en Japón.",
+          femaleDriverReviewExplanation: "La disponibilidad de una conductora es limitada y debe ser confirmada por el equipo en Japón.",
+          guideReviewExplanation: "El conductor se encarga principalmente del transporte y la ruta. Si necesita explicación profesional o guía en otro idioma, requiere confirmación y cotización separada.",
+          transferExtraStopExplanation: "Un traslado estándar normalmente no incluye paradas para comer, compras o visitas turísticas. Una parada corta para baño o tienda de conveniencia puede ser posible. Si desea parar para comer, comprar o hacer turismo, recomiendo cambiarlo a un servicio de chárter.",
+          shortRestroomStopExplanation: "Una parada corta para baño o tienda de conveniencia, de unos 10 minutos, puede ser posible durante un traslado estándar. Paradas más largas para comer, compras o turismo deben cotizarse como chárter.",
+          childSeatNotice: "La silla para bebé cuesta JPY 1,000 por asiento. Por favor indique también la edad del niño para confirmar el asiento adecuado.",
+          strollerNotice: "El cochecito de bebé cuenta como espacio de equipaje, así que lo consideraré junto con las maletas para recomendar el vehículo.",
+          signageNotice: "El servicio de cartel con nombre en el aeropuerto se puede organizar por JPY 2,000. El conductor puede esperar con el cartel en el punto de encuentro.",
+          nightPeakNotice: "El servicio nocturno entre 21:00 y 07:00 tiene un recargo del 20%. En temporada alta, el precio base puede usar tarifa de temporada alta salvo que aplique protección por reserva anticipada.",
+          missingPassengerForVehicle: "Entendido. Puedo ayudarle con el traslado desde el aeropuerto de Haneda hasta Shinjuku. Ya tengo la ruta y el equipaje: 4 maletas. Para recomendar el vehículo correcto y estimar el precio con más precisión, ¿cuántas personas viajarán?",
           contactRequired: "Ingresa tu nombre y al menos un método de contacto.",
           contactIntro: "Si desea que verifiquemos la disponibilidad del vehículo, puede dejar su WhatsApp, Email o LINE. Nuestro equipo en Japón confirmará la disponibilidad del vehículo y del conductor.",
           submittedChat: "Tu solicitud de reserva fue enviada al equipo de operaciones en Japón.\nConfirmaremos disponibilidad del vehículo y asignación del conductor.\nSi aceptas la cotización, normalmente se requiere un depósito del 20% para asegurar el vehículo.",
@@ -404,7 +473,7 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         quote: null,
         bookingRequest: null,
         customerMessages: [],
-        language: "en"
+        language: localStorage.getItem("jtdos_site_lang") || "en"
       };
       const extractOrderPath = "/api/agent/" + "extract-" + "order";
 
@@ -429,6 +498,7 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
 
       function setLanguage(language) {
         state.language = language;
+        localStorage.setItem("jtdos_site_lang", language);
         document.documentElement.lang = language === "zh" ? "zh-CN" : language;
         document.querySelectorAll("[data-i18n]").forEach((node) => {
           node.textContent = t(node.dataset.i18n);
@@ -505,8 +575,8 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         return [...fields].sort((a, b) => order.indexOf(a) - order.indexOf(b));
       }
 
-      function naturalMissingMessage(fields) {
-        const readable = prioritizedMissingFields(fields).slice(0, 5).map((field) => `- ${missingFieldLabel(field)}`).join("\n");
+      function naturalMissingMessage(fields, limit = 5) {
+        const readable = prioritizedMissingFields(fields).slice(0, limit).map((field) => `- ${missingFieldLabel(field)}`).join("\n");
         return t("missingNatural", { fields: readable });
       }
 
@@ -520,17 +590,57 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         return text.includes("多少钱") || text.includes("价格") || text.includes("报价") || text.includes("估价") || text.includes("how much") || text.includes("price") || text.includes("quote") || text.includes("cost");
       }
 
+      function serviceUrl(path) {
+        if (window.location.protocol === "file:") {
+          return `http://127.0.0.1:3000${path}`;
+        }
+        return path;
+      }
+
+      function friendlyRequestError(error) {
+        const message = String(error?.message || error || "");
+        if (message.includes("Failed to fetch") || message.includes("NetworkError") || message.includes("Load failed")) {
+          if (window.location.protocol === "file:") {
+            return state.language === "zh"
+              ? "当前页面是直接打开的文件。请先启动 JTDOS 本地服务，然后访问 http://127.0.0.1:3000/ai-booking。"
+              : state.language === "es"
+                ? "Esta página se abrió como archivo local. Inicia primero el servicio local de JTDOS y visita http://127.0.0.1:3000/ai-booking."
+                : "This page was opened as a local file. Please start the local JTDOS service first, then visit http://127.0.0.1:3000/ai-booking.";
+          }
+          return state.language === "zh"
+            ? "暂时无法连接到本地服务，请确认 JTDOS 服务正在运行。"
+            : state.language === "es"
+              ? "No se puede conectar con el servicio local. Comprueba que JTDOS esté en ejecución."
+              : "Could not connect to the local service. Please make sure JTDOS is running.";
+        }
+        return message;
+      }
+
       async function postJson(url, payload) {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const data = await response.json();
+        let response;
+        try {
+          response = await fetch(serviceUrl(url), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+        } catch (error) {
+          throw new Error(friendlyRequestError(error));
+        }
+        let data;
+        try {
+          data = await response.json();
+        } catch (error) {
+          throw new Error(friendlyRequestError(error));
+        }
         if (!response.ok || data.success === false) {
           throw new Error(data.message || data.error_code || `Request failed: ${url}`);
         }
         return data;
+      }
+
+      function runAndReport(task) {
+        task().catch((error) => setStatus(friendlyRequestError(error), true));
       }
 
       function quoteInputFromDraft(draft) {
@@ -543,12 +653,27 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           pickup_time: draft.pickup_time,
           vehicle_type: draft.recommended_vehicle || draft.vehicle_type,
           passenger_count: draft.passenger_count,
+          adult_count: draft.adult_count,
+          child_count: draft.child_count,
           luggage_count: draft.luggage_count,
           ski_equipment_count: draft.ski_equipment_count,
           child_seat_required: draft.child_seat_required,
           child_seat_count: draft.child_seat_count,
           signage_required: draft.signage_required,
           preferred_language: draft.preferred_language,
+          luxury_vehicle_requested: draft.luxury_vehicle_requested,
+          luxury_vehicle_model: draft.luxury_vehicle_model,
+          english_driver_requested: draft.english_driver_requested,
+          spanish_driver_requested: draft.spanish_driver_requested,
+          female_driver_requested: draft.female_driver_requested,
+          guide_service_requested: draft.guide_service_requested,
+          guide_fee_estimate_jpy_per_day: draft.guide_fee_estimate_jpy_per_day,
+          transfer_extra_stop_requested: draft.transfer_extra_stop_requested,
+          short_restroom_stop_requested: draft.short_restroom_stop_requested,
+          recommend_service_type: draft.recommend_service_type,
+          multiple_vehicles_required: draft.multiple_vehicles_required,
+          vehicle_count: draft.vehicle_count,
+          final_confirmation_required_by_operator: draft.final_confirmation_required_by_operator,
           exchange_rate_usd_jpy: 155
         };
       }
@@ -558,7 +683,8 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           airport_pickup: { en: "Airport pickup", zh: "机场接机", es: "Recogida en aeropuerto" },
           airport_dropoff: { en: "Airport drop-off", zh: "机场送机", es: "Traslado al aeropuerto" },
           point_to_point: { en: "Point-to-point transfer", zh: "点对点用车", es: "Traslado punto a punto" },
-          charter: { en: "Private charter", zh: "包车服务", es: "Chárter privado" }
+          charter: { en: "Private charter", zh: "包车服务", es: "Chárter privado" },
+          multi_day_charter: { en: "Multi-day charter", zh: "多日包车", es: "Chárter de varios días" }
         };
         return labels[type]?.[state.language] || type;
       }
@@ -587,15 +713,70 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         return t("vehicleReasonAlphard");
       }
 
+      function reviewExplanationForDraft(draft = state.draftOrder) {
+        if (draft?.transfer_extra_stop_requested) return t("transferExtraStopExplanation");
+        if (draft?.short_restroom_stop_requested) return t("shortRestroomStopExplanation");
+        if (draft?.luxury_vehicle_requested) return t("luxuryReviewExplanation");
+        if (draft?.guide_service_requested) return t("guideReviewExplanation");
+        if (draft?.english_driver_requested) return t("englishDriverReviewExplanation");
+        if (draft?.spanish_driver_requested) return t("driverSpecialIntro");
+        if (draft?.female_driver_requested) return t("femaleDriverReviewExplanation");
+        if (draft?.service_type === "multi_day_charter") return t("multiDayReviewExplanation");
+        if (draft?.service_type === "charter") return t("charterSalesExplanation");
+        return t("reviewExplanation");
+      }
+
+      function specialSalesMessageForDraft(draft = state.draftOrder) {
+        if (!draft) return "";
+        if (draft.vip_service_requested || draft.private_jet_service_required) return t("vipSpecialIntro");
+        if (draft.luxury_vehicle_requested) return t("luxurySpecialIntro");
+        if (draft.multiple_vehicles_required) return t("multipleVehiclesSpecialIntro");
+        if (draft.guide_service_requested) return t("guideSpecialIntro");
+        if (draft.english_driver_requested || draft.spanish_driver_requested || draft.female_driver_requested) return t("driverSpecialIntro");
+        if (draft.ski_equipment_detected || Number(draft.ski_equipment_count || 0) > 0) return t("skiSpecialIntro");
+        if (draft.child_seat_required || draft.stroller_detected || draft.child_mentioned) return t("childStrollerSpecialIntro");
+        if (draft.signage_required) return t("signageSpecialIntro");
+        if (draft.service_type === "multi_day_charter") return t("multiDayReviewExplanation");
+        if (draft.service_type === "charter") return t("charterSalesExplanation");
+        return "";
+      }
+
+      function hasCoreQuoteInfo(draft = state.draftOrder) {
+        if (!draft) return false;
+        const hasRoute = Boolean((draft.pickup_location || draft.arrival_airport) && draft.dropoff_location);
+        const hasPeopleAndLuggage = Number(draft.passenger_count || 0) > 0 && Number(draft.luggage_count || 0) > 0;
+        return hasRoute && hasPeopleAndLuggage;
+      }
+
+      function quoteDetailRows(quote, draft = state.draftOrder) {
+        const rows = [];
+        if (draft?.service_type === "charter") {
+          rows.push([state.language === "zh" ? "包车说明" : state.language === "es" ? "Nota de chárter" : "Charter note", t("charterSalesExplanation")]);
+        }
+        if (Number(quote.breakdown?.child_seat_jpy || 0) > 0 || draft?.child_seat_required) {
+          rows.push([state.language === "zh" ? "儿童座椅" : state.language === "es" ? "Silla infantil" : "Child seat", t("childSeatNotice")]);
+        }
+        if (draft?.stroller_detected) {
+          rows.push([state.language === "zh" ? "婴儿车" : state.language === "es" ? "Cochecito" : "Baby stroller", t("strollerNotice")]);
+        }
+        if (Number(quote.breakdown?.signage_jpy || 0) > 0 || draft?.signage_required) {
+          rows.push([state.language === "zh" ? "举牌服务" : state.language === "es" ? "Cartel con nombre" : "Name sign service", t("signageNotice")]);
+        }
+        if (Number(quote.night_surcharge_rate || 0) > 0 || quote.is_peak_season) {
+          rows.push([state.language === "zh" ? "夜间 / 旺季" : state.language === "es" ? "Noche / temporada alta" : "Night / peak season", t("nightPeakNotice")]);
+        }
+        return rows;
+      }
+
       function renderQuoteCard(quote) {
         quotePanel.classList.remove("hidden");
-        const explanation = quote.operator_review_required ? t("reviewExplanation") : t("fixedExplanation");
+        const explanation = quote.operator_review_required ? reviewExplanationForDraft() : t("fixedExplanation");
         const quoteType = quote.operator_review_required ? t("operatorReviewPrice") : t("fixedPrice");
         const vehicle = quote.recommended_vehicle || state.draftOrder?.recommended_vehicle || state.draftOrder?.vehicle_type || "-";
         const route = state.draftOrder ? `${state.draftOrder.pickup_location || state.draftOrder.arrival_airport || "-"} → ${state.draftOrder.dropoff_location || "-"}` : quote.route || "-";
         const defaultExcluded = t("routeChangeItems");
         const includedItems = (quote.included || []).length ? quote.included.join(", ") : t("standardIncludedItems");
-        quoteContent.innerHTML = [
+        const rows = [
           `<div class="summary-row"><strong>${state.language === "zh" ? "服务类型" : state.language === "es" ? "Servicio" : "Service type"}</strong><span>${serviceTypeLabel(state.draftOrder?.service_type)}</span></div>`,
           `<div class="summary-row"><strong>${state.language === "zh" ? "路线" : state.language === "es" ? "Ruta" : "Route"}</strong><span>${route}</span></div>`,
           `<div class="summary-row"><strong>${state.language === "zh" ? "推荐车型" : state.language === "es" ? "Vehículo recomendado" : "Recommended vehicle"}</strong><span>${vehicle}</span></div>`,
@@ -611,7 +792,11 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           `<div class="summary-row"><strong>${state.language === "zh" ? "定金" : state.language === "es" ? "Depósito" : "Deposit"}</strong><span>${t("depositNotice")}</span></div>`,
           `<div class="summary-row"><strong>${state.language === "zh" ? "取消政策" : state.language === "es" ? "Cancelación" : "Cancellation policy"}</strong><span>${t("cancellationNotice")}</span></div>`,
           `<div class="summary-row"><strong>${state.language === "zh" ? "确认说明" : state.language === "es" ? "Confirmación" : "Confirmation"}</strong><span>${t("confirmationNotice")}</span></div>`
-        ].join("");
+        ];
+        quoteDetailRows(quote).forEach(([label, value]) => {
+          rows.splice(8, 0, `<div class="summary-row"><strong>${label}</strong><span>${value}</span></div>`);
+        });
+        quoteContent.innerHTML = rows.join("");
       }
 
       function customerWantsBooking(message = "") {
@@ -674,17 +859,23 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         }
 
         const blockingMissing = quoteBlockingMissingFields(draft.missing_fields || []);
+        const specialMessage = specialSalesMessageForDraft(draft);
+        if (specialMessage) {
+          addMessage(specialMessage);
+        }
+
         if (blockingMissing.length > 0) {
-          addMessage(naturalMissingMessage(blockingMissing));
+          if (blockingMissing.length === 1 && blockingMissing[0] === "passenger_count" && draft.pickup_location && draft.dropoff_location && draft.luggage_count) {
+            addMessage(t("missingPassengerForVehicle"));
+          } else {
+            addMessage(naturalMissingMessage(blockingMissing, specialMessage ? 3 : 5));
+          }
           setStatus(state.language === "zh" ? "我会等您补充关键路线信息。" : "I’ll wait for the key route details.");
           return;
         }
 
-        addMessage(t("readyForQuote"));
-        if ((draft.missing_fields || []).some((field) => field === "pickup_time" || field === "flight_number")) {
-          addMessage(t("quoteOptionalInfo"));
-        }
-        if (estimate || customerAskedForPrice(contextMessage)) await estimatePrice();
+        addMessage(hasCoreQuoteInfo(draft) ? t("autoQuoteIntro") : t("readyForQuote"));
+        if (estimate || customerAskedForPrice(contextMessage) || hasCoreQuoteInfo(draft)) await estimatePrice();
       }
 
       async function estimatePrice() {
@@ -694,7 +885,11 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         if (!state.draftOrder) return;
         const blockingMissing = quoteBlockingMissingFields(state.draftOrder.missing_fields || []);
         if (blockingMissing.length > 0) {
-          addMessage(naturalMissingMessage(blockingMissing));
+          if (blockingMissing.length === 1 && blockingMissing[0] === "passenger_count" && state.draftOrder.pickup_location && state.draftOrder.dropoff_location && state.draftOrder.luggage_count) {
+            addMessage(t("missingPassengerForVehicle"));
+          } else {
+            addMessage(naturalMissingMessage(blockingMissing));
+          }
           setStatus(t("noQuoteYet"), true);
           return;
         }
@@ -707,9 +902,13 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         renderRequestSummary(state.draftOrder, quote);
         renderQuoteCard(quote);
         submitButton.classList.remove("hidden");
-        addMessage(t("quoteGeneratedChat", { vehicle: quote.recommended_vehicle || state.draftOrder.recommended_vehicle || state.draftOrder.vehicle_type, price: quote.price_jpy }));
+        if (quote.operator_review_required && !quote.price_jpy) {
+          addMessage(t("reviewQuoteGeneratedChat"));
+        } else {
+          addMessage(t("quoteGeneratedChat", { vehicle: quote.recommended_vehicle || state.draftOrder.recommended_vehicle || state.draftOrder.vehicle_type, price: quote.price_jpy }));
+        }
         addMessage(vehicleReason(quote.recommended_vehicle || state.draftOrder.recommended_vehicle || state.draftOrder.vehicle_type));
-        addMessage(quote.operator_review_required ? t("reviewExplanation") : t("fixedExplanation"));
+        addMessage(quote.operator_review_required ? reviewExplanationForDraft() : t("fixedExplanation"));
         if (customerWantsBooking(state.customerMessages.join("\n"))) showContactForm();
         setStatus(state.language === "zh" ? "已为您生成预估报价。" : "Estimated price is ready.");
       }
@@ -751,26 +950,26 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
       }
 
       document.getElementById("send-need-button").addEventListener("click", () => {
-        handleCustomerNeed({ estimate: false }).catch((error) => setStatus(error.message, true));
+        runAndReport(() => handleCustomerNeed({ estimate: false }));
       });
       chatInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter" && !event.shiftKey) {
           event.preventDefault();
-          handleCustomerNeed({ estimate: false }).catch((error) => setStatus(error.message, true));
+          runAndReport(() => handleCustomerNeed({ estimate: false }));
         }
       });
       document.getElementById("estimate-price-button").addEventListener("click", () => {
         if (state.draftOrder && chatInput.value.trim() === state.customerMessages[state.customerMessages.length - 1]) {
-          estimatePrice().catch((error) => setStatus(error.message, true));
+          runAndReport(() => estimatePrice());
           return;
         }
-        handleCustomerNeed({ estimate: true }).catch((error) => setStatus(error.message, true));
+        runAndReport(() => handleCustomerNeed({ estimate: true }));
       });
       document.getElementById("continue-info-button").addEventListener("click", () => {
-        handleCustomerNeed({ estimate: false }).catch((error) => setStatus(error.message, true));
+        runAndReport(() => handleCustomerNeed({ estimate: false }));
       });
       document.getElementById("submit-booking-request-button").addEventListener("click", () => {
-        submitBookingRequest().catch((error) => setStatus(error.message, true));
+        runAndReport(() => submitBookingRequest());
       });
       document.getElementById("test-haneda-button").addEventListener("click", () => {
         chatInput.value = testText;
@@ -780,7 +979,7 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
       document.querySelectorAll(".language-switcher button").forEach((button) => {
         button.addEventListener("click", () => setLanguage(button.dataset.lang));
       });
-      setLanguage("en");
+      setLanguage(state.language);
     </script>
   </body>
 </html>
