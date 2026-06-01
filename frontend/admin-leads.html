@@ -115,6 +115,34 @@
       color: var(--success);
       font-weight: 800;
     }
+    select, textarea {
+      width: 100%;
+      min-width: 132px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font: inherit;
+      color: var(--text);
+      background: white;
+    }
+    textarea {
+      min-width: 220px;
+      min-height: 72px;
+      resize: vertical;
+    }
+    .save-state {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .save-state.saved {
+      color: var(--success);
+    }
+    .save-state.error {
+      color: #b91c1c;
+    }
     .empty, .error {
       padding: 28px;
       color: var(--muted);
@@ -179,6 +207,7 @@
               <th>Monthly Inquiries</th>
               <th>Lead Type</th>
               <th>Status</th>
+              <th>Internal Notes</th>
               <th>Message</th>
             </tr>
           </thead>
@@ -195,6 +224,14 @@
     const token = params.get("token") || "";
     const fmt = (value) => value ? new Date(value).toLocaleString() : "-";
     const text = (value) => value || "-";
+    const statuses = [
+      ["new", "New"],
+      ["contacted", "Contacted"],
+      ["qualified", "Qualified"],
+      ["won", "Won"],
+      ["lost", "Lost"],
+      ["spam", "Spam"],
+    ];
 
     function setSummary(summary) {
       document.getElementById("total-leads").textContent = summary.total_leads ?? 0;
@@ -220,19 +257,98 @@
           text(lead.company_type),
           text(lead.estimated_monthly_inquiries),
           text(lead.lead_type),
-          text(lead.lead_status),
+          lead,
+          lead,
           text(lead.message),
         ];
         fields.forEach((field, index) => {
           const td = document.createElement("td");
-          td.textContent = field;
-          if (index === 10) td.className = "status";
-          if (index === 11) td.className = "message";
+          if (index === 10) {
+            td.appendChild(statusControl(field));
+          } else if (index === 11) {
+            td.appendChild(notesControl(field));
+          } else {
+            td.textContent = field;
+          }
+          if (index === 12) td.className = "message";
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
       }
       document.getElementById("empty").hidden = leads.length > 0;
+    }
+
+    function statusControl(lead) {
+      const wrapper = document.createElement("div");
+      const select = document.createElement("select");
+      select.setAttribute("aria-label", `Update status for ${lead.name || "lead"}`);
+      statuses.forEach(([value, label]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        option.selected = value === lead.lead_status;
+        select.appendChild(option);
+      });
+      const state = document.createElement("span");
+      state.className = "save-state";
+      state.textContent = "";
+      select.addEventListener("change", async () => {
+        await updateLeadStatus(lead.id, select.value, undefined, state);
+      });
+      wrapper.appendChild(select);
+      wrapper.appendChild(state);
+      return wrapper;
+    }
+
+    function notesControl(lead) {
+      const wrapper = document.createElement("div");
+      const textarea = document.createElement("textarea");
+      textarea.placeholder = "Internal notes";
+      textarea.value = lead.internal_notes || "";
+      textarea.setAttribute("aria-label", `Internal notes for ${lead.name || "lead"}`);
+      const state = document.createElement("span");
+      state.className = "save-state";
+      let timer = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(timer);
+        state.textContent = "Saving...";
+        timer = setTimeout(() => {
+          updateLeadStatus(lead.id, lead.lead_status || "new", textarea.value, state);
+        }, 700);
+      });
+      wrapper.appendChild(textarea);
+      wrapper.appendChild(state);
+      return wrapper;
+    }
+
+    async function updateLeadStatus(leadId, leadStatus, internalNotes, stateElement) {
+      try {
+        stateElement.className = "save-state";
+        stateElement.textContent = "Saving...";
+        const payload = {
+          token,
+          lead_id: leadId,
+          lead_status: leadStatus,
+        };
+        if (internalNotes !== undefined) {
+          payload.internal_notes = internalNotes;
+        }
+        if (leadStatus === "contacted") {
+          payload.last_contacted_at = new Date().toISOString();
+        }
+        const response = await fetch("/api/admin/leads/status", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        if (!response.ok || !data.success) throw new Error("Save failed");
+        stateElement.className = "save-state saved";
+        stateElement.textContent = "Saved";
+      } catch (error) {
+        stateElement.className = "save-state error";
+        stateElement.textContent = "Could not save";
+      }
     }
 
     async function loadLeads() {

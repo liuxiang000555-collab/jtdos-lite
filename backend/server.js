@@ -10,7 +10,7 @@ const { isPublicLiteMode } = require("./config/edition");
 const { sendContactLeadEmailNotification } = require("./notification/contact_lead_email");
 const { appendLeadToGoogleSheet } = require("./lead_storage/google_sheets_lead_storage");
 const { appendLeadToSupabase } = require("./lead_storage/supabase_lead_storage");
-const { fetchPublicAdminLeads, isAdminLeadsTokenValid } = require("./lead_storage/admin_leads");
+const { fetchPublicAdminLeads, isAdminLeadsTokenValid, updatePublicLeadStatus } = require("./lead_storage/admin_leads");
 
 const ROOT = path.resolve(__dirname, "..");
 const PRICE_TABLES = {
@@ -189,6 +189,19 @@ async function routeRequest(req, res) {
     return sendJson(res, result.access_denied ? 404 : 200, result);
   }
 
+  if (req.method === "PATCH" && url.pathname === "/api/admin/leads/status") {
+    const body = await readJsonBody(req);
+    const result = await updatePublicLeadStatus({
+      token: body.token || url.searchParams.get("token") || "",
+      leadId: body.lead_id || body.id || "",
+      lead_status: body.lead_status,
+      last_contacted_at: body.last_contacted_at,
+      internal_notes: body.internal_notes,
+      env: process.env,
+    });
+    return sendJson(res, result.status || (result.success ? 200 : 400), result);
+  }
+
   if (req.method === "POST" && url.pathname === "/api/agent/extract-order") {
     const body = await readJsonBody(req);
     return sendJson(res, 200, extractOrder(body.customer_message || body.message || ""));
@@ -290,4 +303,5 @@ module.exports = Object.assign(handleRequest, {
   maskLeadForLog,
   publicConfig,
   fetchPublicAdminLeads,
+  updatePublicLeadStatus,
 });

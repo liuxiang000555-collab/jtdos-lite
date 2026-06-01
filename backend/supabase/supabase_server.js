@@ -55,6 +55,29 @@ function getSupabaseServerClient(env = process.env, options = {}) {
 
       return { success: true };
     },
+    update: async (table, { search = "", row, prefer = "return=representation" }) => {
+      const endpoint = `${config.url.replace(/\/$/, "")}/rest/v1/${encodeURIComponent(table)}${search}`;
+      const response = await fetchImpl(endpoint, {
+        method: "PATCH",
+        headers: {
+          apikey: config.serviceRoleKey,
+          Authorization: `Bearer ${config.serviceRoleKey}`,
+          "Content-Type": "application/json",
+          Prefer: prefer,
+        },
+        body: JSON.stringify(row),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Supabase update failed with status ${response.status}`);
+      }
+
+      if (prefer.includes("return=representation")) {
+        return response.json();
+      }
+
+      return { success: true };
+    },
   };
 }
 
