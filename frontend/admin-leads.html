@@ -55,7 +55,7 @@
     }
     .stats {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -79,6 +79,43 @@
     .table-card {
       overflow: hidden;
       padding: 0;
+    }
+    .workspace-tools {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      gap: 16px;
+      background: #ffffff;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .filter-button, .copy-button {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-weight: 800;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+    .filter-button.active {
+      background: #e0f2fe;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+    .search-input {
+      width: 100%;
+      max-width: 520px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--text);
+      background: white;
     }
     .table-head {
       padding: 20px 24px;
@@ -137,6 +174,22 @@
       font-size: 12px;
       font-weight: 700;
     }
+    .copy-actions {
+      min-width: 190px;
+      display: grid;
+      gap: 8px;
+    }
+    .copy-button {
+      padding: 9px 10px;
+      text-align: left;
+      font-size: 13px;
+    }
+    .copy-state {
+      min-height: 18px;
+      color: var(--success);
+      font-size: 12px;
+      font-weight: 800;
+    }
     .save-state.saved {
       color: var(--success);
     }
@@ -179,13 +232,33 @@
 
     <section class="stats" aria-label="Lead summary">
       <div class="card"><div class="stat-value" id="total-leads">-</div><div class="stat-label">Total leads</div></div>
-      <div class="card"><div class="stat-value" id="new-leads">-</div><div class="stat-label">New leads</div></div>
-      <div class="card"><div class="stat-value" id="pro-beta-leads">-</div><div class="stat-label">Pro Beta leads</div></div>
-      <div class="card"><div class="stat-value" id="private-license-leads">-</div><div class="stat-label">Private License leads</div></div>
-      <div class="card"><div class="stat-value" id="latest-created-at">-</div><div class="stat-label">Latest submitted</div></div>
+      <div class="card"><div class="stat-value" id="new-leads">-</div><div class="stat-label">New</div></div>
+      <div class="card"><div class="stat-value" id="contacted-leads">-</div><div class="stat-label">Contacted</div></div>
+      <div class="card"><div class="stat-value" id="qualified-leads">-</div><div class="stat-label">Qualified</div></div>
+      <div class="card"><div class="stat-value" id="won-leads">-</div><div class="stat-label">Won</div></div>
+      <div class="card"><div class="stat-value" id="lost-leads">-</div><div class="stat-label">Lost</div></div>
+      <div class="card"><div class="stat-value" id="spam-leads">-</div><div class="stat-label">Spam</div></div>
     </section>
 
     <section class="card table-card">
+      <div class="workspace-tools" aria-label="Lead workspace tools">
+        <div class="filters" id="status-filters" aria-label="Lead status filters">
+          <button class="filter-button active" type="button" data-filter="all">All</button>
+          <button class="filter-button" type="button" data-filter="new">New</button>
+          <button class="filter-button" type="button" data-filter="contacted">Contacted</button>
+          <button class="filter-button" type="button" data-filter="qualified">Qualified</button>
+          <button class="filter-button" type="button" data-filter="won">Won</button>
+          <button class="filter-button" type="button" data-filter="lost">Lost</button>
+          <button class="filter-button" type="button" data-filter="spam">Spam</button>
+        </div>
+        <input
+          class="search-input"
+          id="lead-search"
+          type="search"
+          placeholder="Search name, company, country, email, messenger, or message"
+          aria-label="Search leads"
+        />
+      </div>
       <div class="table-head">
         <div>
           <strong>Leads table</strong>
@@ -208,6 +281,7 @@
               <th>Lead Type</th>
               <th>Status</th>
               <th>Internal Notes</th>
+              <th>Follow-up</th>
               <th>Message</th>
             </tr>
           </thead>
@@ -222,6 +296,9 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token") || "";
+    let allLeads = [];
+    let activeStatusFilter = "all";
+    let activeSearch = "";
     const fmt = (value) => value ? new Date(value).toLocaleString() : "-";
     const text = (value) => value || "-";
     const statuses = [
@@ -233,12 +310,43 @@
       ["spam", "Spam"],
     ];
 
-    function setSummary(summary) {
-      document.getElementById("total-leads").textContent = summary.total_leads ?? 0;
-      document.getElementById("new-leads").textContent = summary.new_leads ?? 0;
-      document.getElementById("pro-beta-leads").textContent = summary.pro_beta_leads ?? 0;
-      document.getElementById("private-license-leads").textContent = summary.private_license_leads ?? 0;
-      document.getElementById("latest-created-at").textContent = summary.latest_created_at ? fmt(summary.latest_created_at) : "-";
+    function statusCount(status) {
+      return allLeads.filter((lead) => (lead.lead_status || "new") === status).length;
+    }
+
+    function setSummary() {
+      document.getElementById("total-leads").textContent = allLeads.length;
+      document.getElementById("new-leads").textContent = statusCount("new");
+      document.getElementById("contacted-leads").textContent = statusCount("contacted");
+      document.getElementById("qualified-leads").textContent = statusCount("qualified");
+      document.getElementById("won-leads").textContent = statusCount("won");
+      document.getElementById("lost-leads").textContent = statusCount("lost");
+      document.getElementById("spam-leads").textContent = statusCount("spam");
+    }
+
+    function searchableText(lead) {
+      return [
+        lead.name,
+        lead.company,
+        lead.country,
+        lead.email,
+        lead.messenger,
+        lead.message,
+      ].map((value) => String(value || "").toLowerCase()).join(" ");
+    }
+
+    function visibleLeads() {
+      const query = activeSearch.trim().toLowerCase();
+      return allLeads.filter((lead) => {
+        const matchesStatus = activeStatusFilter === "all" || (lead.lead_status || "new") === activeStatusFilter;
+        const matchesSearch = !query || searchableText(lead).includes(query);
+        return matchesStatus && matchesSearch;
+      });
+    }
+
+    function refreshWorkspace() {
+      setSummary();
+      renderLeads(visibleLeads());
     }
 
     function renderLeads(leads) {
@@ -259,6 +367,7 @@
           text(lead.lead_type),
           lead,
           lead,
+          lead,
           text(lead.message),
         ];
         fields.forEach((field, index) => {
@@ -267,15 +376,18 @@
             td.appendChild(statusControl(field));
           } else if (index === 11) {
             td.appendChild(notesControl(field));
+          } else if (index === 12) {
+            td.appendChild(followUpControl(field));
           } else {
             td.textContent = field;
           }
-          if (index === 12) td.className = "message";
+          if (index === 13) td.className = "message";
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
       }
       document.getElementById("empty").hidden = leads.length > 0;
+      document.getElementById("empty").textContent = allLeads.length > 0 ? "No matching leads." : "No public leads yet.";
     }
 
     function statusControl(lead) {
@@ -296,6 +408,80 @@
         await updateLeadStatus(lead.id, select.value, undefined, state);
       });
       wrapper.appendChild(select);
+      wrapper.appendChild(state);
+      return wrapper;
+    }
+
+    function safeLeadValue(value, fallback) {
+      return value || fallback;
+    }
+
+    function whatsappFollowUpTemplate(lead) {
+      return `Hi ${safeLeadValue(lead.name, "there")}, thank you for your interest in JTDOS ${safeLeadValue(lead.interested_plan, "Pro Beta")}. I saw your request from ${safeLeadValue(lead.company, "your company")}. Could you tell me more about your current Japan travel transfer workflow and what you would like to automate first?`;
+    }
+
+    function emailFollowUpTemplate(lead) {
+      return `Subject: JTDOS ${safeLeadValue(lead.interested_plan, "Pro Beta")} request
+
+Hi ${safeLeadValue(lead.name, "there")},
+
+Thank you for your interest in JTDOS ${safeLeadValue(lead.interested_plan, "Pro Beta")}.
+
+I saw your request from ${safeLeadValue(lead.company, "your company")} in ${safeLeadValue(lead.country, "your region")}. To better understand your use case, could you share:
+
+1. Which Japan regions you serve
+2. Whether you already work with drivers or suppliers
+3. Your approximate monthly customer inquiries
+4. Whether you need Pro Cloud or Private deployment
+
+Best,
+JTDOS Team`;
+    }
+
+    async function copyText(value, stateElement) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(value);
+        } else {
+          const textarea = document.createElement("textarea");
+          textarea.value = value;
+          textarea.setAttribute("readonly", "");
+          textarea.style.position = "absolute";
+          textarea.style.left = "-9999px";
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textarea);
+        }
+        stateElement.textContent = "Copied";
+        setTimeout(() => {
+          stateElement.textContent = "";
+        }, 1800);
+      } catch (error) {
+        stateElement.textContent = "Copy failed";
+      }
+    }
+
+    function followUpControl(lead) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "copy-actions";
+      const state = document.createElement("span");
+      state.className = "copy-state";
+
+      const whatsapp = document.createElement("button");
+      whatsapp.type = "button";
+      whatsapp.className = "copy-button";
+      whatsapp.textContent = "Copy WhatsApp Follow-up";
+      whatsapp.addEventListener("click", () => copyText(whatsappFollowUpTemplate(lead), state));
+
+      const email = document.createElement("button");
+      email.type = "button";
+      email.className = "copy-button";
+      email.textContent = "Copy Email Follow-up";
+      email.addEventListener("click", () => copyText(emailFollowUpTemplate(lead), state));
+
+      wrapper.appendChild(whatsapp);
+      wrapper.appendChild(email);
       wrapper.appendChild(state);
       return wrapper;
     }
@@ -343,6 +529,13 @@
         });
         const data = await response.json();
         if (!response.ok || !data.success) throw new Error("Save failed");
+        const lead = allLeads.find((item) => item.id === leadId);
+        if (lead) {
+          lead.lead_status = leadStatus;
+          if (internalNotes !== undefined) lead.internal_notes = internalNotes;
+          if (leadStatus === "contacted") lead.last_contacted_at = payload.last_contacted_at;
+        }
+        setSummary();
         stateElement.className = "save-state saved";
         stateElement.textContent = "Saved";
       } catch (error) {
@@ -357,14 +550,29 @@
         if (!response.ok) throw new Error("Access denied");
         const data = await response.json();
         if (!data.success) throw new Error("Unable to load leads");
-        setSummary(data.summary || {});
-        renderLeads(data.leads || []);
+        allLeads = data.leads || [];
+        refreshWorkspace();
         document.getElementById("table-status").textContent = data.warning || "Showing latest public contact leads.";
       } catch (error) {
         document.getElementById("error").hidden = false;
         document.getElementById("table-status").textContent = "Unable to load leads.";
       }
     }
+
+    document.getElementById("status-filters").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-filter]");
+      if (!button) return;
+      activeStatusFilter = button.dataset.filter || "all";
+      document.querySelectorAll(".filter-button").forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+      refreshWorkspace();
+    });
+
+    document.getElementById("lead-search").addEventListener("input", (event) => {
+      activeSearch = event.target.value || "";
+      refreshWorkspace();
+    });
 
     loadLeads();
   </script>
