@@ -69,6 +69,7 @@ function createPublicLiteFixture() {
     ".env.staging.example",
     "backend/config/edition.js",
     "backend/jtdss/mock_jtdss.js",
+    "backend/supabase/supabase_server.js",
     "backend/quote/hokkaido_quote.js",
     "backend/quote/tokyo_quote.js",
     "backend/quote/osaka_quote.js",

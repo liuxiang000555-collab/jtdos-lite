@@ -14,6 +14,13 @@ function leadStorageConfig(env = process.env) {
   };
 }
 
+function leadStorageProviders(env = process.env) {
+  return (env.LEAD_STORAGE_PROVIDER || "")
+    .split(",")
+    .map((provider) => provider.trim().toLowerCase())
+    .filter(Boolean);
+}
+
 function normalizePrivateKey(value) {
   return value.replace(/\\n/g, "\n");
 }
@@ -92,9 +99,10 @@ function googleAppendUrl(config) {
 
 async function appendLeadToGoogleSheet(lead, env = process.env, options = {}) {
   const config = leadStorageConfig(env);
+  const providers = leadStorageProviders(env);
   const row = leadToGoogleSheetRow(lead);
 
-  if (!config.provider) {
+  if (!providers.length) {
     return {
       success: false,
       skipped: true,
@@ -103,7 +111,7 @@ async function appendLeadToGoogleSheet(lead, env = process.env, options = {}) {
     };
   }
 
-  if (config.provider !== "google_sheets") {
+  if (!providers.includes("google_sheets")) {
     return {
       success: false,
       skipped: true,
@@ -173,6 +181,7 @@ module.exports = {
   createGoogleJwt,
   googleAppendUrl,
   leadStorageConfig,
+  leadStorageProviders,
   leadToGoogleSheetRow,
   normalizePrivateKey,
 };

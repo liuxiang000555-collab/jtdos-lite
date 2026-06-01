@@ -9,6 +9,7 @@ const { getJtdssMode, configCheck } = require("./config/env");
 const { isPublicLiteMode } = require("./config/edition");
 const { sendContactLeadEmailNotification } = require("./notification/contact_lead_email");
 const { appendLeadToGoogleSheet } = require("./lead_storage/google_sheets_lead_storage");
+const { appendLeadToSupabase } = require("./lead_storage/supabase_lead_storage");
 
 const ROOT = path.resolve(__dirname, "..");
 const PRICE_TABLES = {
@@ -208,7 +209,10 @@ async function routeRequest(req, res) {
     };
     console.log("JTDOS Pro Beta lead mock submission", maskLeadForLog(lead));
     const emailNotification = await sendContactLeadEmailNotification(lead, process.env);
-    const leadStorage = await appendLeadToGoogleSheet(lead, process.env);
+    const leadStorage = {
+      google_sheets: await appendLeadToGoogleSheet(lead, process.env),
+      supabase: await appendLeadToSupabase(lead, process.env),
+    };
     return sendJson(res, 200, {
       success: true,
       lead_id: lead.lead_id,

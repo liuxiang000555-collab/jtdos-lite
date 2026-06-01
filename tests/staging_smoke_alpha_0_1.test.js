@@ -205,7 +205,8 @@ async function run() {
     assert.equal(body.mock_submission, true);
     assert.ok(body.lead_id.startsWith("JTDOS-LEAD-"));
     assert.equal(body.email_notification.skipped, true);
-    assert.equal(body.lead_storage.skipped, true);
+    assert.equal(body.lead_storage.google_sheets.skipped, true);
+    assert.equal(body.lead_storage.supabase.skipped, true);
     assert.equal(body.message, "Thank you. Your Pro Beta request has been received. The JTDOS team will review your use case and contact you shortly.");
     assert.equal(res.body.includes("lead@example.com"), false);
     assert.equal(res.body.includes("+000000000"), false);
@@ -271,8 +272,9 @@ async function run() {
     const body = JSON.parse(res.body);
     assert.equal(res.status, 200);
     assert.equal(body.success, true);
-    assert.equal(body.lead_storage.failed, true);
-    assert.equal(body.lead_storage.provider, "google_sheets");
+    assert.equal(body.lead_storage.google_sheets.failed, true);
+    assert.equal(body.lead_storage.google_sheets.provider, "google_sheets");
+    assert.equal(body.lead_storage.supabase.skipped, true);
     assert.equal(res.body.includes("storage@example.com"), false);
     assert.equal(res.body.includes("+6500000000"), false);
     assert.equal(res.body.includes("spreadsheet-secret-id"), false);

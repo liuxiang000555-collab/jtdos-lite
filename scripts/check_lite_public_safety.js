@@ -136,7 +136,7 @@ function checkSecretsAndRealData() {
       offenders.jtdss.push(item.relative);
     }
     for (const line of item.text.split(/\r?\n/)) {
-      const match = line.match(/^\s*(JTDSS_API_KEY|EMAIL_API_KEY|TELEGRAM_BOT_TOKEN|GOOGLE_SHEETS_SPREADSHEET_ID|GOOGLE_SHEETS_CLIENT_EMAIL|GOOGLE_SHEETS_PRIVATE_KEY)\s*=\s*(.*?)\s*$/);
+      const match = line.match(/^\s*(JTDSS_API_KEY|EMAIL_API_KEY|TELEGRAM_BOT_TOKEN|GOOGLE_SHEETS_SPREADSHEET_ID|GOOGLE_SHEETS_CLIENT_EMAIL|GOOGLE_SHEETS_PRIVATE_KEY|SUPABASE_URL|SUPABASE_SERVICE_ROLE_KEY)\s*=\s*(.*?)\s*$/);
       if (!match) continue;
       const value = match[2];
       if (
@@ -163,6 +163,33 @@ function checkSecretsAndRealData() {
     if (list.length) {
       console.error(`${kind} offenders: ${[...new Set(list)].join(", ")}`);
     }
+  }
+}
+
+function checkSupabaseServerSafety() {
+  const files = readTextFiles();
+  const frontendOffenders = [];
+  const hardcodedSupabase = [];
+
+  for (const item of files) {
+    if (item.relative === "scripts/check_lite_public_safety.js") continue;
+    if (item.relative.startsWith("frontend/") && /SUPABASE_SERVICE_ROLE_KEY|service_role|supabase_server/i.test(item.text)) {
+      frontendOffenders.push(item.relative);
+    }
+    if (/https:\/\/[a-z0-9-]+\.supabase\.co/i.test(item.text)) {
+      hardcodedSupabase.push(item.relative);
+    }
+  }
+
+  record(frontendOffenders.length === 0, "Supabase service role key is not referenced from frontend files");
+  record(hardcodedSupabase.length === 0, "no real Supabase URL is hardcoded in repository files");
+  record(exists("backend/supabase/supabase_server.js"), "server-side Supabase client lives under backend/supabase");
+
+  if (frontendOffenders.length) {
+    console.error(`frontend Supabase offenders: ${[...new Set(frontendOffenders)].join(", ")}`);
+  }
+  if (hardcodedSupabase.length) {
+    console.error(`hardcoded Supabase URL offenders: ${[...new Set(hardcodedSupabase)].join(", ")}`);
   }
 }
 
@@ -220,6 +247,7 @@ function checkReadmeStatesMockOnly() {
 checkForbiddenFiles();
 checkMockPriceFiles();
 checkSecretsAndRealData();
+checkSupabaseServerSafety();
 checkCustomerPage();
 checkMockMode();
 checkLiteQuoteEngineUsesMockOnly();
