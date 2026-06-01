@@ -18,6 +18,24 @@ function getSupabaseServerClient(env = process.env, options = {}) {
 
   return {
     enabled: true,
+    select: async (table, { search = "", headers = {} } = {}) => {
+      const endpoint = `${config.url.replace(/\/$/, "")}/rest/v1/${encodeURIComponent(table)}${search}`;
+      const response = await fetchImpl(endpoint, {
+        method: "GET",
+        headers: {
+          apikey: config.serviceRoleKey,
+          Authorization: `Bearer ${config.serviceRoleKey}`,
+          Accept: "application/json",
+          ...headers,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Supabase select failed with status ${response.status}`);
+      }
+
+      return response.json();
+    },
     insert: async (table, row) => {
       const endpoint = `${config.url.replace(/\/$/, "")}/rest/v1/${encodeURIComponent(table)}`;
       const response = await fetchImpl(endpoint, {

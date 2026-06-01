@@ -10,6 +10,7 @@ const { isPublicLiteMode } = require("./config/edition");
 const { sendContactLeadEmailNotification } = require("./notification/contact_lead_email");
 const { appendLeadToGoogleSheet } = require("./lead_storage/google_sheets_lead_storage");
 const { appendLeadToSupabase } = require("./lead_storage/supabase_lead_storage");
+const { fetchPublicAdminLeads, isAdminLeadsTokenValid } = require("./lead_storage/admin_leads");
 
 const ROOT = path.resolve(__dirname, "..");
 const PRICE_TABLES = {
@@ -120,6 +121,15 @@ async function routeRequest(req, res) {
     return sendHtml(res, 200, html);
   }
 
+  if (req.method === "GET" && url.pathname === "/admin/leads") {
+    const token = url.searchParams.get("token") || "";
+    if (!isAdminLeadsTokenValid(token, process.env)) {
+      return sendHtml(res, 404, "Access denied.");
+    }
+    const html = fs.readFileSync(path.join(ROOT, "frontend/admin-leads.html"), "utf8");
+    return sendHtml(res, 200, html);
+  }
+
   if (req.method === "GET" && [
     "/dashboard",
     "/dashboard/settings",
@@ -168,6 +178,15 @@ async function routeRequest(req, res) {
 
   if (req.method === "GET" && url.pathname === "/api/public-config") {
     return sendJson(res, 200, publicConfig(process.env));
+  }
+
+  if (req.method === "GET" && url.pathname === "/api/admin/leads") {
+    const result = await fetchPublicAdminLeads({
+      token: url.searchParams.get("token") || "",
+      limit: url.searchParams.get("limit") || "50",
+      env: process.env,
+    });
+    return sendJson(res, result.access_denied ? 404 : 200, result);
   }
 
   if (req.method === "POST" && url.pathname === "/api/agent/extract-order") {
@@ -270,4 +289,5 @@ module.exports = Object.assign(handleRequest, {
   maskSensitiveOrderForLog,
   maskLeadForLog,
   publicConfig,
+  fetchPublicAdminLeads,
 });
