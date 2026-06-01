@@ -439,19 +439,28 @@ JTDOS Team`;
     }
 
     async function copyText(value, stateElement) {
+      const fallbackCopy = () => {
+        const textarea = document.createElement("textarea");
+        textarea.value = value;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "absolute";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand("copy");
+        document.body.removeChild(textarea);
+        if (!copied) throw new Error("Fallback copy failed");
+      };
+
       try {
         if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(value);
+          try {
+            await navigator.clipboard.writeText(value);
+          } catch (error) {
+            fallbackCopy();
+          }
         } else {
-          const textarea = document.createElement("textarea");
-          textarea.value = value;
-          textarea.setAttribute("readonly", "");
-          textarea.style.position = "absolute";
-          textarea.style.left = "-9999px";
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand("copy");
-          document.body.removeChild(textarea);
+          fallbackCopy();
         }
         stateElement.textContent = "Copied";
         setTimeout(() => {
