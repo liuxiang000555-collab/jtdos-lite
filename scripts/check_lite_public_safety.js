@@ -115,7 +115,10 @@ function checkSecretsAndRealData() {
   const files = readTextFiles();
   const jtdssUrlPattern = /https?:\/\/[^\s"'`]*/gi;
   const realPaypalPattern = /https?:\/\/(?:www\.)?paypal\.(?:com|me)\/(?!example|pay\b)/i;
-  const nonExampleEmailPattern = /\b[A-Z0-9._%+-]+@(?!example\.com\b)[A-Z0-9.-]+\.[A-Z]{2,}\b/i;
+  const nonExampleEmailPattern = /\b[A-Z0-9._%+-]+@(?!example\.com\b)[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+  const allowedInternalEmails = new Set([
+    "pro-test@jtdos.com",
+  ]);
 
   const offenders = {
     jtdss: [],
@@ -151,7 +154,9 @@ function checkSecretsAndRealData() {
       }
     }
     if (realPaypalPattern.test(item.text)) offenders.paypal.push(item.relative);
-    if (nonExampleEmailPattern.test(item.text) && !item.relative.endsWith(".md")) offenders.customer.push(item.relative);
+    const matchedEmails = item.text.match(nonExampleEmailPattern) || [];
+    const customerEmails = matchedEmails.filter((email) => !allowedInternalEmails.has(email.toLowerCase()));
+    if (customerEmails.length && !item.relative.endsWith(".md")) offenders.customer.push(item.relative);
   }
 
   record(offenders.jtdss.length === 0, "no real JTDSS API URL is present");

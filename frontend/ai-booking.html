@@ -168,6 +168,15 @@
         color: #047857;
         font-weight: 700;
       }
+      .pro-test-banner {
+        grid-column: 1 / -1;
+        border: 1px solid #BFDBFE;
+        background: #EFF6FF;
+        color: #1D4ED8;
+        border-radius: 16px;
+        padding: 14px 18px;
+        font-weight: 800;
+      }
       .hidden {
         display: none;
       }
@@ -188,6 +197,9 @@
   </head>
   <body>
     <main id="ai-booking-page">
+      <div id="pro-test-banner" class="pro-test-banner hidden">
+        Internal Pro Test Mode · Manual Pro account · No real payment · For daily validation only.
+      </div>
       <section>
         <div class="top-bar">
           <div>
@@ -245,6 +257,16 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
     </main>
 
     <script>
+      const proTestParams = new URLSearchParams(window.location.search);
+      const isManualProTestMode =
+        proTestParams.get("mode") === "pro-test" ||
+        proTestParams.get("plan") === "pro" ||
+        proTestParams.get("plan") === "pro-test";
+      const proTestBanner = document.getElementById("pro-test-banner");
+      if (proTestBanner && isManualProTestMode) {
+        proTestBanner.classList.remove("hidden");
+      }
+
       const testText = "We are 4 people arriving at Haneda Airport on June 1 at 14:30, flight JL000, going to Shinjuku with 4 suitcases. We prefer a Chinese-speaking driver.";
       const translations = {
         en: {

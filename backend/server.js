@@ -11,6 +11,10 @@ const { sendContactLeadEmailNotification } = require("./notification/contact_lea
 const { appendLeadToGoogleSheet } = require("./lead_storage/google_sheets_lead_storage");
 const { appendLeadToSupabase } = require("./lead_storage/supabase_lead_storage");
 const { fetchPublicAdminLeads, isAdminLeadsTokenValid, updatePublicLeadStatus } = require("./lead_storage/admin_leads");
+const {
+  dashboardStateFromRequest,
+  publicProTestAccountSummary,
+} = require("./account/pro_test_account");
 
 const ROOT = path.resolve(__dirname, "..");
 const PRICE_TABLES = {
@@ -137,7 +141,11 @@ async function routeRequest(req, res) {
     "/dashboard/price-tables",
     "/dashboard/integrations",
   ].includes(url.pathname)) {
-    const html = fs.readFileSync(path.join(ROOT, "frontend/dashboard.html"), "utf8");
+    const state = dashboardStateFromRequest(url);
+    const stateJson = JSON.stringify(state).replace(/</g, "\\u003c");
+    const html = fs
+      .readFileSync(path.join(ROOT, "frontend/dashboard.html"), "utf8")
+      .replace("__JTDOS_DASHBOARD_STATE__", stateJson);
     return sendHtml(res, 200, html);
   }
 
@@ -178,6 +186,10 @@ async function routeRequest(req, res) {
 
   if (req.method === "GET" && url.pathname === "/api/public-config") {
     return sendJson(res, 200, publicConfig(process.env));
+  }
+
+  if (req.method === "GET" && url.pathname === "/api/pro-test-account") {
+    return sendJson(res, 200, publicProTestAccountSummary());
   }
 
   if (req.method === "GET" && url.pathname === "/api/admin/leads") {
