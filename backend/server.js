@@ -145,7 +145,7 @@ async function routeRequest(req, res) {
     const stateJson = JSON.stringify(state).replace(/</g, "\\u003c");
     const html = fs
       .readFileSync(path.join(ROOT, "frontend/dashboard.html"), "utf8")
-      .replace("__JTDOS_DASHBOARD_STATE__", stateJson);
+      .replace("__JTDOS_DASHBOARD_STATE_JSON__", stateJson);
     return sendHtml(res, 200, html);
   }
 

@@ -76,6 +76,19 @@ async function run() {
     assert.ok(res.body.includes("jtdos_site_lang"));
   });
 
+  await test("/dashboard?plan=pro renders parseable language switcher script", async () => {
+    const res = await callRoute({ url: "/dashboard?plan=pro" });
+    assert.equal(res.status, 200);
+    assert.ok(res.body.includes("window.__JTDOS_DASHBOARD_STATE__ = {"));
+    assert.equal(res.body.includes("__JTDOS_DASHBOARD_STATE_JSON__"), false);
+    assert.equal(res.body.includes("window.{"), false);
+    const scripts = [...res.body.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((match) => match[1]);
+    assert.ok(scripts.length > 0);
+    scripts.forEach((script) => {
+      new Function(script);
+    });
+  });
+
   await test("/ai-booking?mode=pro-test shows Internal Pro Test Mode", async () => {
     const res = await callRoute({ url: "/ai-booking?mode=pro-test" });
     assert.equal(res.status, 200);
