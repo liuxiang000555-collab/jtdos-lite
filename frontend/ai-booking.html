@@ -177,6 +177,48 @@
         padding: 14px 18px;
         font-weight: 800;
       }
+      .pro-test-panel {
+        grid-column: 1 / -1;
+        background: #FFFFFF;
+        border: 1px solid #BFDBFE;
+        border-radius: 20px;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+        padding: 24px;
+      }
+      .pro-test-panel h2,
+      .pro-test-panel h3 {
+        margin-top: 0;
+      }
+      .pro-test-account-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+        margin: 18px 0;
+      }
+      .pro-test-account-grid div {
+        background: #F8FAFC;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .pro-test-account-grid strong {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      .pro-test-demo-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .pro-test-demo-buttons button {
+        background: #E0F2FE;
+        color: #1D4ED8;
+        height: auto;
+        min-height: 44px;
+        padding: 10px 14px;
+      }
       .hidden {
         display: none;
       }
@@ -192,14 +234,31 @@
         .summary-row {
           grid-template-columns: 1fr;
         }
+        .pro-test-account-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
     <main id="ai-booking-page">
-      <div id="pro-test-banner" class="pro-test-banner hidden">
+      <div id="pro-test-banner" class="pro-test-banner hidden" data-i18n="proTestBanner">
         Internal Pro Test Mode · Manual Pro account · No real payment · For daily validation only.
       </div>
+      <section id="pro-test-panel" class="pro-test-panel hidden">
+        <div class="eyebrow" data-i18n="proTestBadge">Internal Pro Test Mode</div>
+        <h2 data-i18n="proTestTitle">Internal Pro Test Mode</h2>
+        <p class="subtitle" data-i18n="proTestCopy">Use this workspace for daily real customer conversation validation. This is an internal Pro test account, not a real paid customer account.</p>
+        <div class="pro-test-account-grid">
+          <div><strong data-i18n="proTestAccountLabel">Account</strong><span>pro-test@jtdos.com</span></div>
+          <div><strong data-i18n="proTestPlanLabel">Plan</strong><span>Pro</span></div>
+          <div><strong data-i18n="proTestPaymentLabel">Payment status</strong><span>test_paid</span></div>
+          <div><strong data-i18n="proTestLicenseLabel">License source</strong><span>manual_test</span></div>
+          <div><strong data-i18n="proTestSafetyLabel">Safety</strong><span data-i18n="proTestNoPayment">No real payment was processed.</span></div>
+        </div>
+        <h3 data-i18n="proTestDemoInputsTitle">Pro Test Demo Inputs</h3>
+        <div id="pro-test-demo-buttons" class="pro-test-demo-buttons"></div>
+      </section>
       <section>
         <div class="top-bar">
           <div>
@@ -340,7 +399,18 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           cancellationNotice: "Free cancellation is available 7 days or more before the service date. Cancellation within 7 days is charged 10% of the total order amount.",
           confirmationNotice: "This booking request is not final confirmation. A fixed price means the route price does not need manual price confirmation; it does not mean a driver has already been assigned.",
           routeChangeItems: "Extra waiting time, Signage / placard, Child seat, Route change, Additional stop, Guide service",
-          standardIncludedItems: "Driver, Vehicle, Fuel, Highway toll, Parking fee"
+          standardIncludedItems: "Driver, Vehicle, Fuel, Highway toll, Parking fee",
+          proTestBanner: "Internal Pro Test Mode · Manual Pro account · No real payment · For daily validation only.",
+          proTestBadge: "Internal Pro Test Mode",
+          proTestTitle: "Internal Pro Test Mode",
+          proTestCopy: "Use this workspace for daily real customer conversation validation. This is an internal Pro test account, not a real paid customer account.",
+          proTestAccountLabel: "Account",
+          proTestPlanLabel: "Plan",
+          proTestPaymentLabel: "Payment status",
+          proTestLicenseLabel: "License source",
+          proTestSafetyLabel: "Safety",
+          proTestNoPayment: "No real payment was processed.",
+          proTestDemoInputsTitle: "Pro Test Demo Inputs"
         },
         zh: {
           title: "AI 日本旅游用车顾问",
@@ -413,7 +483,18 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           cancellationNotice: "提前 7 天及以上可免费取消；7 天内取消收取订单总额 10%。",
           confirmationNotice: "Booking request 不是最终确认。fixed_price 只代表路线价格不需要人工确认，不代表司机已接单。",
           routeChangeItems: "Extra waiting time, Signage / placard, Child seat, Route change, Additional stop, Guide service",
-          standardIncludedItems: "Driver, Vehicle, Fuel, Highway toll, Parking fee"
+          standardIncludedItems: "Driver, Vehicle, Fuel, Highway toll, Parking fee",
+          proTestBanner: "内部 Pro 测试模式 · 手动 Pro 测试账号 · 无真实付款 · 仅用于每日验收。",
+          proTestBadge: "内部 Pro 测试模式",
+          proTestTitle: "内部 Pro 测试模式",
+          proTestCopy: "这个工作区用于每天进行真实客户对话验收。这是内部 Pro 测试账号，不是真实付费客户账号。",
+          proTestAccountLabel: "账号",
+          proTestPlanLabel: "计划",
+          proTestPaymentLabel: "付款状态",
+          proTestLicenseLabel: "授权来源",
+          proTestSafetyLabel: "安全说明",
+          proTestNoPayment: "没有产生真实付款。",
+          proTestDemoInputsTitle: "Pro 测试示例输入"
         },
         es: {
           title: "Asistente de Viaje JTDOS AI para Japón",
@@ -486,8 +567,46 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           cancellationNotice: "Cancelación gratuita 7 días o más antes del servicio. Dentro de 7 días se cobra el 10% del total.",
           confirmationNotice: "La solicitud de reserva no es confirmación final. Un precio fijo no significa que el conductor ya esté asignado.",
           routeChangeItems: "Extra waiting time, Signage / placard, Child seat, Route change, Additional stop, Guide service",
-          standardIncludedItems: "Driver, Vehicle, Fuel, Highway toll, Parking fee"
+          standardIncludedItems: "Driver, Vehicle, Fuel, Highway toll, Parking fee",
+          proTestBanner: "Modo interno de prueba Pro · Cuenta Pro manual · Sin pago real · Solo para validación diaria.",
+          proTestBadge: "Modo interno de prueba Pro",
+          proTestTitle: "Modo interno de prueba Pro",
+          proTestCopy: "Use este espacio para la validación diaria de conversaciones reales con clientes. Es una cuenta interna de prueba Pro, no una cuenta real pagada.",
+          proTestAccountLabel: "Cuenta",
+          proTestPlanLabel: "Plan",
+          proTestPaymentLabel: "Estado de pago",
+          proTestLicenseLabel: "Fuente de licencia",
+          proTestSafetyLabel: "Seguridad",
+          proTestNoPayment: "No se procesó ningún pago real.",
+          proTestDemoInputsTitle: "Entradas demo de prueba Pro"
         }
+      };
+
+      const proTestDemoInputs = {
+        en: [
+          "Haneda to Shinjuku, 2 people, 2 suitcases",
+          "Kansai Airport to Kyoto, 6 people, 6 suitcases",
+          "New Chitose to Niseko with ski bags",
+          "One-day charter from Tokyo to Fuji",
+          "5-day charter in Hokkaido"
+        ],
+        zh: [
+          "羽田到新宿，2个人2个箱子",
+          "关西机场到京都，6个人6个箱子",
+          "新千岁到二世谷，4个人4个箱子和滑雪板",
+          "东京包车一天去富士山",
+          "北海道5天包车",
+          "想要英文司机",
+          "想要豪华车",
+          "有儿童座椅和婴儿车",
+          "接机需要举牌"
+        ],
+        es: [
+          "De Haneda a Shinjuku, 2 personas, 2 maletas",
+          "Del aeropuerto de Kansai a Kioto, 6 personas, 6 maletas",
+          "De New Chitose a Niseko con equipaje de esquí",
+          "Chárter de un día desde Tokio a Fuji"
+        ]
       };
 
       const state = {
@@ -495,7 +614,7 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
         quote: null,
         bookingRequest: null,
         customerMessages: [],
-        language: localStorage.getItem("jtdos_site_lang") || "en"
+        language: translations[proTestParams.get("lang")] ? proTestParams.get("lang") : (localStorage.getItem("jtdos_site_lang") || "en")
       };
       const extractOrderPath = "/api/agent/" + "extract-" + "order";
 
@@ -509,6 +628,8 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
       const contactForm = document.getElementById("customer-contact-form");
       const submitButton = document.getElementById("submit-booking-request-button");
       const contactIntroText = document.getElementById("contact-intro-text");
+      const proTestPanel = document.getElementById("pro-test-panel");
+      const proTestDemoButtons = document.getElementById("pro-test-demo-buttons");
 
       function t(key, values = {}) {
         let text = translations[state.language][key] || translations.en[key] || key;
@@ -532,6 +653,27 @@ I’ll help you step by step with route, vehicle recommendation, and estimated p
           button.classList.toggle("active", button.dataset.lang === language);
         });
         contactIntroText.textContent = t("contactIntro");
+        renderProTestMode();
+      }
+
+      function renderProTestMode() {
+        if (!proTestBanner || !proTestPanel || !proTestDemoButtons) return;
+        proTestBanner.classList.toggle("hidden", !isManualProTestMode);
+        proTestPanel.classList.toggle("hidden", !isManualProTestMode);
+        if (!isManualProTestMode) return;
+
+        proTestDemoButtons.innerHTML = "";
+        (proTestDemoInputs[state.language] || proTestDemoInputs.en).forEach((sample) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = sample;
+          button.addEventListener("click", () => {
+            chatInput.value = sample;
+            chatInput.focus();
+            setStatus(t("testLoaded"));
+          });
+          proTestDemoButtons.appendChild(button);
+        });
       }
 
       function setStatus(message, isError = false) {

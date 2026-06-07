@@ -31,6 +31,22 @@
       .brand { font-size: 20px; font-weight: 900; }
       nav { display: flex; flex-wrap: wrap; gap: 16px; }
       nav a { color: var(--muted); font-weight: 800; text-decoration: none; }
+      .header-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 16px; }
+      .language-switcher { display: flex; flex-wrap: wrap; gap: 8px; }
+      .language-switcher button {
+        min-height: 40px;
+        border: 0;
+        border-radius: 12px;
+        padding: 8px 12px;
+        background: #EAF0F8;
+        color: var(--text);
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .language-switcher button.active {
+        background: var(--primary);
+        color: #fff;
+      }
       .card {
         background: var(--surface);
         border: 1px solid var(--border);
@@ -70,54 +86,148 @@
         line-height: 1.6;
       }
       #result { margin-top: 20px; font-weight: 900; color: #065F46; }
+      @media (max-width: 760px) {
+        header { align-items: flex-start; flex-direction: column; }
+        .header-actions { justify-content: flex-start; }
+      }
     </style>
   </head>
   <body>
     <main>
       <header>
         <div class="brand">JTDOS Lite</div>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/dashboard">Dashboard</a>
-        </nav>
+        <div class="header-actions">
+          <nav>
+            <a href="/" data-i18n="navHome">Home</a>
+            <a href="/pricing" data-i18n="navPricing">Pricing</a>
+            <a href="/dashboard" data-i18n="navDashboard">Dashboard</a>
+          </nav>
+          <div class="language-switcher" aria-label="Language switcher">
+            <button type="button" data-lang="en">EN</button>
+            <button type="button" data-lang="zh">中文</button>
+            <button type="button" data-lang="es">Español</button>
+          </div>
+        </div>
       </header>
 
       <section class="card">
-        <div class="eyebrow">Demo Mode / Mock Payment</div>
-        <h1>JTDOS Pro Cloud</h1>
-        <p>This page demonstrates the future Pro Cloud upgrade flow. Real payment activation will require production checkout and server-side payment verification.</p>
-        <div class="price">USD 999 one-time setup</div>
+        <div class="eyebrow" data-i18n="eyebrow">Demo Mode / Mock Payment</div>
+        <h1 data-i18n="title">JTDOS Pro Cloud</h1>
+        <p data-i18n="intro">This page demonstrates the future Pro Cloud upgrade flow. Real payment activation will require production checkout and server-side payment verification.</p>
+        <div class="price" data-i18n="price">USD 999 one-time setup</div>
         <ul>
-          <li>Pro AI Booking Assistant</li>
-          <li>Custom price tables</li>
-          <li>Lead storage</li>
-          <li>Email / Telegram / Google Sheet notifications</li>
-          <li>Pro dashboard</li>
-          <li>JTDSS connector configuration screen</li>
+          <li data-i18n="featureAi">Pro AI Booking Assistant</li>
+          <li data-i18n="featurePriceTables">Custom price tables</li>
+          <li data-i18n="featureLeadStorage">Lead storage</li>
+          <li data-i18n="featureNotifications">Email / Telegram / Google Sheet notifications</li>
+          <li data-i18n="featureDashboard">Pro dashboard</li>
+          <li data-i18n="featureConnector">JTDSS connector configuration screen</li>
         </ul>
-        <button id="upgrade-button" type="button">Simulate Pro Upgrade</button>
-        <div class="note">No real payment is collected on this page. No real PayPal or Stripe API is connected, and no Private source package is delivered automatically.</div>
+        <button id="upgrade-button" type="button" data-i18n="button">Simulate Pro Upgrade</button>
+        <div class="note" data-i18n="note">No real payment is collected on this page. No real PayPal or Stripe API is connected, and no Private source package is delivered automatically.</div>
         <div id="result" aria-live="polite"></div>
       </section>
     </main>
 
     <script>
+      const translations = {
+        en: {
+          navHome: "Home",
+          navPricing: "Pricing",
+          navDashboard: "Dashboard",
+          eyebrow: "Demo Mode / Mock Payment",
+          title: "JTDOS Pro Cloud",
+          intro: "This page demonstrates the future Pro Cloud upgrade flow. Real payment activation will require production checkout and server-side payment verification.",
+          price: "USD 999 one-time setup",
+          featureAi: "Pro AI Booking Assistant",
+          featurePriceTables: "Custom price tables",
+          featureLeadStorage: "Lead storage",
+          featureNotifications: "Email / Telegram / Google Sheet notifications",
+          featureDashboard: "Pro dashboard",
+          featureConnector: "JTDSS connector configuration screen",
+          button: "Simulate Pro Upgrade",
+          note: "No real payment is collected on this page. No real PayPal or Stripe API is connected, and no Private source package is delivered automatically.",
+          simulating: "Simulating Pro Cloud upgrade in mock mode...",
+          success: "Pro Cloud activated in mock mode. No real payment was processed.",
+          failure: "Mock upgrade failed. Please try again."
+        },
+        zh: {
+          navHome: "首页",
+          navPricing: "价格",
+          navDashboard: "控制台",
+          eyebrow: "演示模式 / 模拟付款",
+          title: "JTDOS Pro Cloud",
+          intro: "此页面仅用于展示未来 Pro Cloud 升级流程。正式付款开通需要生产级 checkout 和服务器端付款验证。",
+          price: "USD 999 一次性设置费",
+          featureAi: "Pro AI 预约助手",
+          featurePriceTables: "自定义价格表",
+          featureLeadStorage: "线索保存",
+          featureNotifications: "Email / Telegram / Google Sheet 通知",
+          featureDashboard: "Pro 控制台",
+          featureConnector: "JTDSS 连接器配置界面",
+          button: "模拟升级 Pro",
+          note: "此页面不会收取真实付款。没有连接真实 PayPal 或 Stripe API，也不会自动交付 Private 源码包。",
+          simulating: "正在模拟 Pro Cloud 升级...",
+          success: "Pro Cloud 已在模拟模式下开通。没有发生真实付款。",
+          failure: "模拟升级失败，请重试。"
+        },
+        es: {
+          navHome: "Inicio",
+          navPricing: "Precios",
+          navDashboard: "Panel",
+          eyebrow: "Modo demo / Pago simulado",
+          title: "JTDOS Pro Cloud",
+          intro: "Esta página muestra el futuro flujo de actualización a Pro Cloud. La activación real requerirá checkout de producción y verificación de pago en servidor.",
+          price: "USD 999 configuración única",
+          featureAi: "Asistente AI Booking Pro",
+          featurePriceTables: "Tablas de precios personalizadas",
+          featureLeadStorage: "Almacenamiento de leads",
+          featureNotifications: "Notificaciones Email / Telegram / Google Sheet",
+          featureDashboard: "Panel Pro",
+          featureConnector: "Pantalla de configuración del conector JTDSS",
+          button: "Simular actualización Pro",
+          note: "No se cobra ningún pago real en esta página. No hay API real de PayPal o Stripe conectada, y no se entrega automáticamente ningún paquete de código Private.",
+          simulating: "Simulando actualización Pro Cloud en modo mock...",
+          success: "Pro Cloud se ha activado en modo simulado. No se ha procesado ningún pago real.",
+          failure: "La actualización simulada falló. Inténtelo de nuevo."
+        }
+      };
+      const params = new URLSearchParams(window.location.search);
+      let currentLang = translations[params.get("lang")] ? params.get("lang") : (localStorage.getItem("jtdos_site_lang") || "en");
+      if (!translations[currentLang]) currentLang = "en";
+      function t(key) {
+        return translations[currentLang][key] || translations.en[key] || key;
+      }
+      function setLanguage(lang) {
+        currentLang = translations[lang] ? lang : "en";
+        localStorage.setItem("jtdos_site_lang", currentLang);
+        document.documentElement.lang = currentLang === "zh" ? "zh-CN" : currentLang;
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          node.textContent = t(node.dataset.i18n);
+        });
+        document.querySelectorAll(".language-switcher button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === currentLang);
+        });
+      }
       document.getElementById("upgrade-button").addEventListener("click", async () => {
         const result = document.getElementById("result");
-          result.textContent = "Simulating Pro Cloud upgrade in mock mode...";
+        result.textContent = t("simulating");
         const response = await fetch("/api/billing/mock-upgrade", { method: "POST" });
         const data = await response.json();
         if (data.success && data.plan === "pro") {
           localStorage.setItem("jtdos_mock_plan", "pro");
-          result.textContent = "Pro Cloud activated in mock mode. No real payment was processed.";
+          result.textContent = t("success");
           setTimeout(() => {
-            window.location.href = "/dashboard?plan=pro";
+            window.location.href = `/dashboard?plan=pro&lang=${currentLang}`;
           }, 700);
         } else {
-          result.textContent = "Mock upgrade failed. Please try again.";
+          result.textContent = t("failure");
         }
       });
+      document.querySelectorAll(".language-switcher button").forEach((button) => {
+        button.addEventListener("click", () => setLanguage(button.dataset.lang));
+      });
+      setLanguage(currentLang);
     </script>
   </body>
 </html>

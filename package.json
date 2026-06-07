@@ -10,6 +10,7 @@
     "start:production": "NODE_ENV=production node backend/server.js",
     "test:alpha": "node tests/ai_booking_e2e_alpha_0_1.test.js && node tests/quote_matrix_alpha_0_1.test.js && node tests/deployment_readiness_alpha_0_1.test.js",
     "test:pro-account": "node tests/pro_test_account.test.js",
+    "test:pro-workspace": "node tests/pro_test_account_multilingual_workspace.test.js",
     "test:staging": "node tests/staging_smoke_alpha_0_1.test.js",
     "check:staging": "node scripts/pre_staging_check.js",
     "check:public-lite": "node scripts/check_lite_public_safety.js"

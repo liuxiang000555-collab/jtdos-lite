@@ -29,6 +29,22 @@
       .brand { font-size: 20px; font-weight: 900; }
       nav { display: flex; flex-wrap: wrap; gap: 16px; }
       nav a { color: var(--muted); font-weight: 800; text-decoration: none; }
+      .header-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 16px; }
+      .language-switcher { display: flex; flex-wrap: wrap; gap: 8px; }
+      .language-switcher button {
+        min-height: 40px;
+        border: 0;
+        border-radius: 12px;
+        padding: 8px 12px;
+        background: #EAF0F8;
+        color: var(--text);
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .language-switcher button.active {
+        background: var(--primary);
+        color: #fff;
+      }
       .hero {
         background: linear-gradient(135deg, #FFFFFF, #EEF6FF);
         border: 1px solid var(--border);
@@ -78,12 +94,40 @@
         font-size: 13px;
       }
       .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+      .workspace-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+        gap: 18px;
+        margin-bottom: 24px;
+      }
       .card {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 18px;
         box-shadow: var(--shadow);
         padding: 24px;
+      }
+      .checklist {
+        display: grid;
+        gap: 10px;
+        margin: 14px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      .checklist li {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-weight: 750;
+      }
+      .checklist li::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--primary);
+        flex: 0 0 auto;
       }
       .locked { opacity: 0.72; }
       .button {
@@ -104,6 +148,7 @@
       @media (max-width: 880px) {
         header { align-items: flex-start; flex-direction: column; }
         .grid { grid-template-columns: 1fr; }
+        .workspace-grid { grid-template-columns: 1fr; }
         .account-grid { grid-template-columns: 1fr; }
       }
     </style>
@@ -112,16 +157,23 @@
     <main>
       <header>
         <div class="brand">JTDOS Pro Cloud</div>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/ai-booking">AI Booking</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/upgrade">Upgrade</a>
-        </nav>
+        <div class="header-actions">
+          <nav>
+            <a href="/" data-i18n="navHome">Home</a>
+            <a href="/ai-booking" data-i18n="navAiBooking">AI Booking</a>
+            <a href="/pricing" data-i18n="navPricing">Pricing</a>
+            <a href="/upgrade" data-i18n="navUpgrade">Upgrade</a>
+          </nav>
+          <div class="language-switcher" aria-label="Language switcher">
+            <button type="button" data-lang="en">EN</button>
+            <button type="button" data-lang="zh">中文</button>
+            <button type="button" data-lang="es">Español</button>
+          </div>
+        </div>
       </header>
 
       <section class="hero">
-        <div class="eyebrow">Mock Pro Dashboard</div>
+        <div class="eyebrow" data-i18n="eyebrow">Mock Pro Dashboard</div>
         <h1 id="page-title">Your JTDOS workspace</h1>
         <p id="page-copy">Lite users can preview the dashboard. Upgrade to Pro Cloud to unlock business configuration.</p>
         <div id="lite-status" class="status lite">Lite plan: Upgrade to Pro</div>
@@ -142,30 +194,43 @@
         <a id="upgrade-link" class="button" href="/upgrade">Upgrade to Pro</a>
       </section>
 
+      <section id="pro-test-workspace" class="workspace-grid hidden" aria-label="Pro Test Workspace">
+        <article class="card">
+          <div class="eyebrow" data-i18n="workspaceEyebrow">Internal Pro Test Account</div>
+          <h2 data-i18n="workspaceTitle">Pro Test Workspace</h2>
+          <p data-i18n="workspaceCopy">Use this internal Pro test account to validate real customer conversations every day. No real payment was processed. This is for JTDOS Pro validation only.</p>
+          <a id="pro-test-conversation-link" class="button" href="/ai-booking?mode=pro-test" data-i18n="workspaceButton">Start Pro AI Conversation Test</a>
+        </article>
+        <article class="card">
+          <h2 data-i18n="checklistTitle">Daily Pro Validation Checklist</h2>
+          <ul class="checklist" id="daily-checklist"></ul>
+        </article>
+      </section>
+
       <section class="grid" aria-label="Pro dashboard features">
         <article class="card" data-feature="price-tables">
-          <h2>Custom price tables</h2>
-          <p>Configure routes, vehicles, seasonal prices, and fixed-price quote rules for your regions.</p>
+          <h2 data-i18n="priceTablesTitle">Custom price tables</h2>
+          <p data-i18n="priceTablesCopy">Configure routes, vehicles, seasonal prices, and fixed-price quote rules for your regions.</p>
         </article>
         <article class="card" data-feature="lead-storage">
-          <h2>Lead storage settings</h2>
-          <p>Connect Google Sheets or future CRM storage for Pro Beta inquiries and customer leads.</p>
+          <h2 data-i18n="leadStorageTitle">Lead storage settings</h2>
+          <p data-i18n="leadStorageCopy">Connect Google Sheets or future CRM storage for Pro Beta inquiries and customer leads.</p>
         </article>
         <article class="card" data-feature="notifications">
-          <h2>Notification settings</h2>
-          <p>Set up Email, Telegram, WhatsApp handoff, and operational alerts for your team.</p>
+          <h2 data-i18n="notificationsTitle">Notification settings</h2>
+          <p data-i18n="notificationsCopy">Set up Email, Telegram, WhatsApp handoff, and operational alerts for your team.</p>
         </article>
         <article class="card" data-feature="ai-booking-pro">
-          <h2>AI Booking Pro mode</h2>
-          <p>Use your own price tables and workflow rules instead of the public Lite mock data.</p>
+          <h2 data-i18n="aiBookingProTitle">AI Booking Pro mode</h2>
+          <p data-i18n="aiBookingProCopy">Use your own price tables and workflow rules instead of the public Lite mock data.</p>
         </article>
         <article class="card" data-feature="jtdss-connector">
-          <h2>JTDSS connector configuration</h2>
-          <p>Prepare endpoint, API key, and dispatch workflow settings. Production connection is manual.</p>
+          <h2 data-i18n="connectorTitle">JTDSS connector configuration</h2>
+          <p data-i18n="connectorCopy">Prepare endpoint, API key, and dispatch workflow settings. Production connection is manual.</p>
         </article>
         <article class="card" data-feature="lead-export">
-          <h2>Export leads</h2>
-          <p>Export customer leads and Pro Beta inquiries for sales follow-up and reporting.</p>
+          <h2 data-i18n="leadExportTitle">Export leads</h2>
+          <p data-i18n="leadExportCopy">Export customer leads and Pro Beta inquiries for sales follow-up and reporting.</p>
         </article>
       </section>
     </main>
@@ -174,27 +239,205 @@
       window.__JTDOS_DASHBOARD_STATE__ = __JTDOS_DASHBOARD_STATE__;
 
       const params = new URLSearchParams(window.location.search);
+      const translations = {
+        en: {
+          navHome: "Home",
+          navAiBooking: "AI Booking",
+          navPricing: "Pricing",
+          navUpgrade: "Upgrade",
+          eyebrow: "Mock Pro Dashboard",
+          liteTitle: "Your JTDOS workspace",
+          liteCopy: "Lite users can preview the dashboard. Upgrade to Pro Cloud to unlock business configuration.",
+          liteStatus: "Lite plan: Upgrade to Pro",
+          proStatus: "Pro features unlocked in demo mode.",
+          proTestStatus: "Internal Pro Test Account · manual_test · test_paid",
+          proTitle: "Pro features unlocked in demo mode.",
+          proCopy: "Your Pro Cloud mock workspace is active. You can now preview custom price tables, lead storage, notification settings, and connector screens.",
+          proTestTitle: "Pro features unlocked in test mode.",
+          proTestCopy: "This internal Pro test workspace is active for daily conversation validation. It is not a real paid production account.",
+          upgradeButton: "Upgrade to Pro",
+          accountTitle: "Internal Pro Test Account",
+          accountCopy: "This is a manual Pro test account for daily validation. No real payment was processed.",
+          accountEmail: "Email",
+          licenseSource: "License Source",
+          paymentStatus: "Payment Status",
+          plan: "Plan",
+          environment: "Environment",
+          safety: "Safety",
+          noRealPayment: "No real payment was processed.",
+          workspaceEyebrow: "Internal Pro Test Account",
+          workspaceTitle: "Pro Test Workspace",
+          workspaceCopy: "Use this internal Pro test account to validate real customer conversations every day. No real payment was processed. This is for JTDOS Pro validation only.",
+          workspaceButton: "Start Pro AI Conversation Test",
+          checklistTitle: "Daily Pro Validation Checklist",
+          checklist: ["Airport pickup inquiry", "Airport drop-off inquiry", "Point-to-point transfer", "One-day charter", "Multi-day charter", "Ski equipment", "Child seat / stroller", "Luxury vehicle", "English / Spanish driver", "Booking request flow"],
+          priceTablesTitle: "Custom price tables",
+          priceTablesCopy: "Configure routes, vehicles, seasonal prices, and fixed-price quote rules for your regions.",
+          leadStorageTitle: "Lead storage settings",
+          leadStorageCopy: "Connect Google Sheets or future CRM storage for Pro Beta inquiries and customer leads.",
+          notificationsTitle: "Notification settings",
+          notificationsCopy: "Set up Email, Telegram, WhatsApp handoff, and operational alerts for your team.",
+          aiBookingProTitle: "AI Booking Pro mode",
+          aiBookingProCopy: "Use your own price tables and workflow rules instead of the public Lite mock data.",
+          connectorTitle: "JTDSS connector configuration",
+          connectorCopy: "Prepare endpoint, API key, and dispatch workflow settings. Production connection is manual.",
+          leadExportTitle: "Export leads",
+          leadExportCopy: "Export customer leads and Pro Beta inquiries for sales follow-up and reporting."
+        },
+        zh: {
+          navHome: "首页",
+          navAiBooking: "AI 预约",
+          navPricing: "价格",
+          navUpgrade: "升级",
+          eyebrow: "模拟 Pro 控制台",
+          liteTitle: "您的 JTDOS 工作区",
+          liteCopy: "Lite 用户可以预览控制台。升级到 Pro Cloud 后可解锁业务配置。",
+          liteStatus: "Lite 套餐：升级到 Pro",
+          proStatus: "Pro 功能已在演示模式下解锁。",
+          proTestStatus: "内部 Pro 测试账号 · manual_test · test_paid",
+          proTitle: "Pro 功能已在测试模式下解锁。",
+          proCopy: "您的 Pro Cloud 模拟工作区已开启，可以预览价格表、线索保存、通知设置和连接器配置。",
+          proTestTitle: "Pro 功能已在测试模式下解锁。",
+          proTestCopy: "这个内部 Pro 测试工作区用于每天进行真实对话验收。它不是正式付款账号。",
+          upgradeButton: "升级到 Pro",
+          accountTitle: "内部 Pro 测试账号",
+          accountCopy: "这是用于每日验收的手动 Pro 测试账号。没有发生真实付款。",
+          accountEmail: "账号",
+          licenseSource: "授权来源",
+          paymentStatus: "付款状态",
+          plan: "套餐",
+          environment: "环境",
+          safety: "安全说明",
+          noRealPayment: "没有发生真实付款。",
+          workspaceEyebrow: "内部 Pro 测试账号",
+          workspaceTitle: "Pro 测试工作区",
+          workspaceCopy: "使用这个内部 Pro 测试账号，每天进行真实客户对话验收。该账号不是正式付款账号，仅用于 JTDOS Pro 验证。",
+          workspaceButton: "开始 Pro AI 对话测试",
+          checklistTitle: "每日 Pro 验收清单",
+          checklist: ["接机咨询", "送机咨询", "点对点用车", "一日包车", "多日包车", "滑雪装备", "儿童座椅 / 婴儿车", "豪华车", "英文 / 西语司机", "预约请求流程"],
+          priceTablesTitle: "自定义价格表",
+          priceTablesCopy: "配置路线、车型、季节价格和固定报价规则。",
+          leadStorageTitle: "线索保存设置",
+          leadStorageCopy: "连接 Google Sheets 或未来 CRM，用于保存 Pro Beta 咨询和客户线索。",
+          notificationsTitle: "通知设置",
+          notificationsCopy: "为团队配置 Email、Telegram、WhatsApp 转接和运营提醒。",
+          aiBookingProTitle: "AI Booking Pro 模式",
+          aiBookingProCopy: "使用您自己的价格表和业务规则，而不是公开 Lite mock 数据。",
+          connectorTitle: "JTDSS 连接器配置",
+          connectorCopy: "准备 endpoint、API key 和派单流程配置。生产连接仍需人工确认。",
+          leadExportTitle: "导出线索",
+          leadExportCopy: "导出客户线索和 Pro Beta 咨询，用于销售跟进和报表。"
+        },
+        es: {
+          navHome: "Inicio",
+          navAiBooking: "AI Booking",
+          navPricing: "Precios",
+          navUpgrade: "Actualizar",
+          eyebrow: "Panel Pro simulado",
+          liteTitle: "Su espacio de trabajo JTDOS",
+          liteCopy: "Los usuarios Lite pueden previsualizar el panel. Actualice a Pro Cloud para desbloquear la configuración de negocio.",
+          liteStatus: "Plan Lite: actualizar a Pro",
+          proStatus: "Funciones Pro desbloqueadas en modo demo.",
+          proTestStatus: "Cuenta interna de prueba Pro · manual_test · test_paid",
+          proTitle: "Funciones Pro desbloqueadas en modo demo.",
+          proCopy: "Su espacio Pro Cloud simulado está activo. Puede previsualizar tablas de precios, almacenamiento de leads, notificaciones y conectores.",
+          proTestTitle: "Funciones Pro desbloqueadas en modo de prueba.",
+          proTestCopy: "Este espacio interno de prueba Pro está activo para validación diaria de conversaciones. No es una cuenta de producción pagada.",
+          upgradeButton: "Actualizar a Pro",
+          accountTitle: "Cuenta interna de prueba Pro",
+          accountCopy: "Esta es una cuenta Pro manual para validación diaria. No se ha procesado ningún pago real.",
+          accountEmail: "Cuenta",
+          licenseSource: "Origen de licencia",
+          paymentStatus: "Estado de pago",
+          plan: "Plan",
+          environment: "Entorno",
+          safety: "Seguridad",
+          noRealPayment: "No se ha procesado ningún pago real.",
+          workspaceEyebrow: "Cuenta interna de prueba Pro",
+          workspaceTitle: "Espacio de prueba Pro",
+          workspaceCopy: "Utilice esta cuenta interna de prueba Pro para validar conversaciones reales con clientes. No se ha procesado ningún pago real.",
+          workspaceButton: "Iniciar prueba de conversación Pro AI",
+          checklistTitle: "Lista diaria de validación Pro",
+          checklist: ["Recogida en aeropuerto", "Traslado al aeropuerto", "Traslado punto a punto", "Chárter de un día", "Chárter de varios días", "Equipo de esquí", "Silla infantil / cochecito", "Vehículo de lujo", "Conductor en inglés / español", "Flujo de solicitud de reserva"],
+          priceTablesTitle: "Tablas de precios personalizadas",
+          priceTablesCopy: "Configure rutas, vehículos, precios estacionales y reglas de precio fijo.",
+          leadStorageTitle: "Configuración de leads",
+          leadStorageCopy: "Conecte Google Sheets o futuro CRM para consultas Pro Beta y leads de clientes.",
+          notificationsTitle: "Configuración de notificaciones",
+          notificationsCopy: "Configure Email, Telegram, WhatsApp y alertas operativas para su equipo.",
+          aiBookingProTitle: "Modo AI Booking Pro",
+          aiBookingProCopy: "Use sus propias tablas de precios y reglas en lugar de datos mock de Lite.",
+          connectorTitle: "Configuración del conector JTDSS",
+          connectorCopy: "Prepare endpoint, API key y flujo operativo. La conexión en producción es manual.",
+          leadExportTitle: "Exportar leads",
+          leadExportCopy: "Exporte leads y solicitudes Pro Beta para seguimiento comercial."
+        }
+      };
+      const initialLang = params.get("lang") || localStorage.getItem("jtdos_site_lang") || "en";
       const queryPlan = params.get("plan");
       const savedPlan = localStorage.getItem("jtdos_mock_plan") || "lite";
       const serverState = window.__JTDOS_DASHBOARD_STATE__ || {};
       const isManualProTest = serverState.account_mode === "manual_pro_test";
       const plan = isManualProTest ? "pro" : (queryPlan || savedPlan);
       const isPro = plan === "pro";
+      let currentLang = translations[initialLang] ? initialLang : "en";
+
+      function t(key) {
+        return translations[currentLang][key] || translations.en[key] || key;
+      }
+
+      function setLanguage(lang) {
+        currentLang = translations[lang] ? lang : "en";
+        localStorage.setItem("jtdos_site_lang", currentLang);
+        document.documentElement.lang = currentLang === "zh" ? "zh-CN" : currentLang;
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          node.textContent = t(node.dataset.i18n);
+        });
+        document.querySelectorAll(".language-switcher button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === currentLang);
+        });
+        renderDashboardText();
+      }
+
+      function renderChecklist() {
+        document.getElementById("daily-checklist").innerHTML = t("checklist")
+          .map((item) => `<li>${item}</li>`)
+          .join("");
+      }
+
+      function renderDashboardText() {
+        document.getElementById("lite-status").textContent = t("liteStatus");
+        document.getElementById("pro-status").textContent = t("proStatus");
+        document.getElementById("pro-test-status").textContent = t("proTestStatus");
+        document.querySelector("#pro-test-account-card h2").textContent = t("accountTitle");
+        document.querySelector("#pro-test-account-card p").textContent = t("accountCopy");
+        document.querySelectorAll("#pro-test-account-card .account-field strong")[0].textContent = t("accountEmail");
+        document.querySelectorAll("#pro-test-account-card .account-field strong")[1].textContent = t("licenseSource");
+        document.querySelectorAll("#pro-test-account-card .account-field strong")[2].textContent = t("paymentStatus");
+        document.querySelectorAll("#pro-test-account-card .account-field strong")[3].textContent = t("plan");
+        document.querySelectorAll("#pro-test-account-card .account-field strong")[4].textContent = t("environment");
+        document.querySelectorAll("#pro-test-account-card .account-field strong")[5].textContent = t("safety");
+        document.querySelectorAll("#pro-test-account-card .account-field span")[5].textContent = t("noRealPayment");
+        document.getElementById("upgrade-link").textContent = t("upgradeButton");
+        document.getElementById("pro-test-conversation-link").href = `/ai-booking?mode=pro-test&lang=${currentLang}`;
+        renderChecklist();
+        document.getElementById("page-title").textContent = isPro
+          ? (isManualProTest ? t("proTestTitle") : t("proTitle"))
+          : t("liteTitle");
+        document.getElementById("page-copy").textContent = isManualProTest
+          ? t("proTestCopy")
+          : isPro
+          ? t("proCopy")
+          : t("liteCopy");
+      }
 
       document.body.dataset.plan = isPro ? "pro" : "lite";
       document.getElementById("lite-status").classList.toggle("hidden", isPro);
       document.getElementById("pro-status").classList.toggle("hidden", !isPro);
       document.getElementById("pro-test-status").classList.toggle("hidden", !isManualProTest);
       document.getElementById("pro-test-account-card").classList.toggle("hidden", !isManualProTest);
+      document.getElementById("pro-test-workspace").classList.toggle("hidden", !isManualProTest);
       document.getElementById("upgrade-link").classList.toggle("hidden", isPro);
-      document.getElementById("page-title").textContent = isPro
-        ? (isManualProTest ? "Pro features unlocked in test mode." : "Pro features unlocked in demo mode.")
-        : "Your JTDOS workspace";
-      document.getElementById("page-copy").textContent = isManualProTest
-        ? "This internal Pro test workspace is active for daily conversation validation. It is not a real paid production account."
-        : isPro
-        ? "Your Pro Cloud mock workspace is active. You can now preview custom price tables, lead storage, notification settings, and connector screens."
-        : "Lite users can preview the dashboard. Upgrade to Pro Cloud to unlock business configuration.";
       if (isManualProTest) {
         document.getElementById("pro-test-email").textContent = serverState.email || "Internal test account";
         document.getElementById("pro-test-license").textContent = serverState.license_source || "manual_test";
@@ -205,6 +448,10 @@
       if (!isPro) {
         document.querySelectorAll(".card").forEach((card) => card.classList.add("locked"));
       }
+      document.querySelectorAll(".language-switcher button").forEach((button) => {
+        button.addEventListener("click", () => setLanguage(button.dataset.lang));
+      });
+      setLanguage(currentLang);
     </script>
   </body>
 </html>
