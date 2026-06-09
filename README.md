@@ -23,6 +23,16 @@ JTDOS Lite uses mock data only. Public Lite deployments must use mock price tabl
 - Mock operations backend
 - Landing / Pricing / Contact pages
 
+## Vision / AI Action Layer
+
+JTDOS is moving toward an AI-agent-callable booking and operations layer for Japan private transfers, airport pickup, and charter services.
+
+The public Lite demo shows the customer-facing part of this direction: conversation, route understanding, vehicle recommendation, booking request preparation, and mock operations follow-up.
+
+In the broader architecture, JTDOS is the AI sales and booking request layer, while JTDSS is the driver, vehicle, fleet, and dispatch execution layer. Public Lite uses mock data only. Pro / Private access requires review and private setup.
+
+See [docs/PUBLIC_AI_ACTION_LAYER_SUMMARY.md](docs/PUBLIC_AI_ACTION_LAYER_SUMMARY.md) for the public-safe summary.
+
 ## What Lite Does Not Include
 
 JTDOS Lite does not include:
